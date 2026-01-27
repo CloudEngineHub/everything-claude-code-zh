@@ -1,21 +1,21 @@
 ---
 name: instinct-status
-description: Show all learned instincts with their confidence levels
+description: 显示所有已学习的 instincts 及其置信度水平
 command: /instinct-status
 implementation: python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py status
 ---
 
-# Instinct Status Command
+# Instinct Status Command (Instinct 状态命令)
 
-Shows all learned instincts with their confidence scores, grouped by domain.
+显示所有已学习的 instincts 及其置信度分数，按域分组。
 
-## Implementation
+## 实施
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py status
 ```
 
-## Usage
+## 用法
 
 ```
 /instinct-status
@@ -23,13 +23,13 @@ python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py status
 /instinct-status --low-confidence
 ```
 
-## What to Do
+## 做什么
 
-1. Read all instinct files from `~/.claude/homunculus/instincts/personal/`
-2. Read inherited instincts from `~/.claude/homunculus/instincts/inherited/`
-3. Display them grouped by domain with confidence bars
+1. 读取 `~/.claude/homunculus/instincts/personal/` 中的所有 instinct 文件
+2. 读取 `~/.claude/homunculus/instincts/inherited/` 中的继承 instincts
+3. 将它们按域分组并显示置信度条
 
-## Output Format
+## 输出格式
 
 ```
 📊 Instinct Status
@@ -70,10 +70,10 @@ Total: 9 instincts (4 personal, 5 inherited)
 Observer: Running (last analysis: 5 min ago)
 ```
 
-## Flags
+## 标志 (Flags)
 
-- `--domain <name>`: Filter by domain (code-style, testing, git, etc.)
-- `--low-confidence`: Show only instincts with confidence < 0.5
-- `--high-confidence`: Show only instincts with confidence >= 0.7
-- `--source <type>`: Filter by source (session-observation, repo-analysis, inherited)
-- `--json`: Output as JSON for programmatic use
+- `--domain <name>`: 用于过滤 (code-style, testing, git, etc.)
+- `--low-confidence`: 仅显示置信度 < 0.5 的 instincts
+- `--high-confidence`: 仅显示置信度 >= 0.7 的 instincts
+- `--source <type>`: 按来源过滤 (session-observation, repo-analysis, inherited)
+- `--json`: 输出为 JSON 以供程序使用

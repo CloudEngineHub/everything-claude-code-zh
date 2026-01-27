@@ -1,27 +1,27 @@
 ---
 name: iterative-retrieval
-description: Pattern for progressively refining context retrieval to solve the subagent context problem
+description: 逐步细化上下文检索以解决子 agent 上下文问题的模式
 ---
 
-# Iterative Retrieval Pattern
+# 迭代检索模式 (Iterative Retrieval Pattern)
 
-Solves the "context problem" in multi-agent workflows where subagents don't know what context they need until they start working.
+解决多 agent 工作流中的“上下文问题”，即子 agent 在开始工作之前不知道它们需要什么上下文。
 
-## The Problem
+## 问题
 
-Subagents are spawned with limited context. They don't know:
-- Which files contain relevant code
-- What patterns exist in the codebase
-- What terminology the project uses
+子 agent 生成时上下文有限。它们不知道：
+- 哪些文件包含相关代码
+- 代码库中存在什么模式
+- 项目使用什么术语
 
-Standard approaches fail:
-- **Send everything**: Exceeds context limits
-- **Send nothing**: Agent lacks critical information
-- **Guess what's needed**: Often wrong
+标准方法会失败：
+- **发送一切**: 超出上下文限制
+- **什么也不发**: Agent 缺乏关键信息
+- **猜测需要什么**: 经常出错
 
-## The Solution: Iterative Retrieval
+## 解决方案：迭代检索
 
-A 4-phase loop that progressively refines context:
+一个逐步细化上下文的 4 阶段循环：
 
 ```
 ┌─────────────────────────────────────────────┐
@@ -36,28 +36,29 @@ A 4-phase loop that progressively refines context:
 │   └──────────┘      └──────────┘            │
 │                                             │
 │        Max 3 cycles, then proceed           │
+│                                             │
 └─────────────────────────────────────────────┘
 ```
 
-### Phase 1: DISPATCH
+### 阶段 1: DISPATCH (分发)
 
-Initial broad query to gather candidate files:
+初始广泛查询以收集候选文件：
 
 ```javascript
-// Start with high-level intent
+// 从高层意图开始
 const initialQuery = {
   patterns: ['src/**/*.ts', 'lib/**/*.ts'],
   keywords: ['authentication', 'user', 'session'],
   excludes: ['*.test.ts', '*.spec.ts']
 };
 
-// Dispatch to retrieval agent
+// 分发给检索 agent
 const candidates = await retrieveFiles(initialQuery);
 ```
 
-### Phase 2: EVALUATE
+### 阶段 2: EVALUATE (评估)
 
-Assess retrieved content for relevance:
+评估检索内容的即相关性：
 
 ```javascript
 function evaluateRelevance(files, task) {
@@ -70,32 +71,32 @@ function evaluateRelevance(files, task) {
 }
 ```
 
-Scoring criteria:
-- **High (0.8-1.0)**: Directly implements target functionality
-- **Medium (0.5-0.7)**: Contains related patterns or types
-- **Low (0.2-0.4)**: Tangentially related
-- **None (0-0.2)**: Not relevant, exclude
+评分标准：
+- **High (0.8-1.0)**: 直接实施目标功能
+- **Medium (0.5-0.7)**: 包含相关模式或类型
+- **Low (0.2-0.4)**: 稍微相关
+- **None (0-0.2)**: 不相关，排除
 
-### Phase 3: REFINE
+### 阶段 3: REFINE (优化)
 
-Update search criteria based on evaluation:
+根据评估更新搜索条件：
 
 ```javascript
 function refineQuery(evaluation, previousQuery) {
   return {
-    // Add new patterns discovered in high-relevance files
+    // 添加在高相关性文件中发现的新模式
     patterns: [...previousQuery.patterns, ...extractPatterns(evaluation)],
 
-    // Add terminology found in codebase
+    // 添加在代码库中发现的术语
     keywords: [...previousQuery.keywords, ...extractKeywords(evaluation)],
 
-    // Exclude confirmed irrelevant paths
+    // 排除确认不相关的路径
     excludes: [...previousQuery.excludes, ...evaluation
       .filter(e => e.relevance < 0.2)
       .map(e => e.path)
     ],
 
-    // Target specific gaps
+    // 针对特定缺口
     focusAreas: evaluation
       .flatMap(e => e.missingContext)
       .filter(unique)
@@ -103,9 +104,9 @@ function refineQuery(evaluation, previousQuery) {
 }
 ```
 
-### Phase 4: LOOP
+### 阶段 4: LOOP (循环)
 
-Repeat with refined criteria (max 3 cycles):
+使用优化后的条件重复（最多 3 个周期）：
 
 ```javascript
 async function iterativeRetrieve(task, maxCycles = 3) {
@@ -116,13 +117,13 @@ async function iterativeRetrieve(task, maxCycles = 3) {
     const candidates = await retrieveFiles(query);
     const evaluation = evaluateRelevance(candidates, task);
 
-    // Check if we have sufficient context
+    // 检查是否有足够的上下文
     const highRelevance = evaluation.filter(e => e.relevance >= 0.7);
     if (highRelevance.length >= 3 && !hasCriticalGaps(evaluation)) {
       return highRelevance;
     }
 
-    // Refine and continue
+    // 优化并继续
     query = refineQuery(evaluation, query);
     bestContext = mergeContext(bestContext, highRelevance);
   }
@@ -131,72 +132,72 @@ async function iterativeRetrieve(task, maxCycles = 3) {
 }
 ```
 
-## Practical Examples
+## 实践示例
 
-### Example 1: Bug Fix Context
+### 示例 1: Bug 修复上下文
 
 ```
-Task: "Fix the authentication token expiry bug"
+Task: "修复认证令牌过期 bug"
 
 Cycle 1:
-  DISPATCH: Search for "token", "auth", "expiry" in src/**
-  EVALUATE: Found auth.ts (0.9), tokens.ts (0.8), user.ts (0.3)
-  REFINE: Add "refresh", "jwt" keywords; exclude user.ts
+  DISPATCH: 在 src/** 中搜索 "token", "auth", "expiry"
+  EVALUATE: 找到 auth.ts (0.9), tokens.ts (0.8), user.ts (0.3)
+  REFINE: 添加 "refresh", "jwt" 关键字; 排除 user.ts
 
 Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found session-manager.ts (0.95), jwt-utils.ts (0.85)
-  REFINE: Sufficient context (2 high-relevance files)
+  DISPATCH: 搜索优化后的术语
+  EVALUATE: 找到 session-manager.ts (0.95), jwt-utils.ts (0.85)
+  REFINE: 足够的上下文 (2 high-relevance files)
 
 Result: auth.ts, tokens.ts, session-manager.ts, jwt-utils.ts
 ```
 
-### Example 2: Feature Implementation
+### 示例 2: 功能实现
 
 ```
-Task: "Add rate limiting to API endpoints"
+Task: "添加 API 端点的速率限制"
 
 Cycle 1:
-  DISPATCH: Search "rate", "limit", "api" in routes/**
-  EVALUATE: No matches - codebase uses "throttle" terminology
-  REFINE: Add "throttle", "middleware" keywords
+  DISPATCH: 在 routes/** 中搜索 "rate", "limit", "api"
+  EVALUATE: 无匹配 - 代码库使用 "throttle" 术语
+  REFINE: 添加 "throttle", "middleware" 关键字
 
 Cycle 2:
-  DISPATCH: Search refined terms
-  EVALUATE: Found throttle.ts (0.9), middleware/index.ts (0.7)
-  REFINE: Need router patterns
+  DISPATCH: 搜索优化后的术语
+  EVALUATE: 找到 throttle.ts (0.9), middleware/index.ts (0.7)
+  REFINE: 需要 router 模式
 
 Cycle 3:
-  DISPATCH: Search "router", "express" patterns
-  EVALUATE: Found router-setup.ts (0.8)
-  REFINE: Sufficient context
+  DISPATCH: 搜索 "router", "express" 模式
+  EVALUATE: 找到 router-setup.ts (0.8)
+  REFINE: 足够的上下文
 
 Result: throttle.ts, middleware/index.ts, router-setup.ts
 ```
 
-## Integration with Agents
+## 与 Agents 集成
 
-Use in agent prompts:
+在 agent prompts 中使用：
 
 ```markdown
-When retrieving context for this task:
-1. Start with broad keyword search
-2. Evaluate each file's relevance (0-1 scale)
-3. Identify what context is still missing
-4. Refine search criteria and repeat (max 3 cycles)
-5. Return files with relevance >= 0.7
+当为此任务检索上下文时：
+1. 从广泛的关键字搜索开始
+2. 评估每个文件的相关性 (0-1 等级)
+3. 识别仍然缺失的上下文
+4. 优化搜索条件并重复（最多 3 个周期）
+5. 返回相关性 >= 0.7 的文件
 ```
 
-## Best Practices
+## 最佳实践
 
-1. **Start broad, narrow progressively** - Don't over-specify initial queries
-2. **Learn codebase terminology** - First cycle often reveals naming conventions
-3. **Track what's missing** - Explicit gap identification drives refinement
-4. **Stop at "good enough"** - 3 high-relevance files beats 10 mediocre ones
-5. **Exclude confidently** - Low-relevance files won't become relevant
+1. **从宽泛开始，逐步缩小** - 不要过度指定初始查询
+2. **学习代码库术语** - 第一个周期通常会揭示命名约定
+3. **跟踪缺失内容** - 明确的缺口识别驱动优化
+4. **在“足够好”时停止** - 3 个高相关性文件胜过 10 个平庸的
+5. **自信地排除** - 低相关性文件不会变得相关
 
-## Related
+## 相关
 
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Subagent orchestration section
-- `continuous-learning` skill - For patterns that improve over time
-- Agent definitions in `~/.claude/agents/`
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - 子 agent 编排章节
+- `continuous-learning` skill - 用于随时间改进的模式
+- `~/.claude/agents/` 中的 Agent 定义

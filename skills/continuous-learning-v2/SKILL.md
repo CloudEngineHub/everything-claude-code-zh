@@ -1,27 +1,27 @@
 ---
 name: continuous-learning-v2
-description: Instinct-based learning system that observes sessions via hooks, creates atomic instincts with confidence scoring, and evolves them into skills/commands/agents.
+description: 基于 Instinct 的学习系统，通过 hooks 观察会话，创建具有置信度评分的原子 instincts，并将其演进为 skills/commands/agents。
 version: 2.0.0
 ---
 
-# Continuous Learning v2 - Instinct-Based Architecture
+# Continuous Learning v2 - 基于本能的架构 (Instinct-Based Architecture)
 
-An advanced learning system that turns your Claude Code sessions into reusable knowledge through atomic "instincts" - small learned behaviors with confidence scoring.
+一个先进的学习系统，通过原子 "instincts"（具有置信度评分的小型学习行为），将你的 Claude Code 会话转化为可重用知识。
 
-## What's New in v2
+## v2 新特性
 
 | Feature | v1 | v2 |
 |---------|----|----|
-| Observation | Stop hook (session end) | PreToolUse/PostToolUse (100% reliable) |
-| Analysis | Main context | Background agent (Haiku) |
-| Granularity | Full skills | Atomic "instincts" |
-| Confidence | None | 0.3-0.9 weighted |
-| Evolution | Direct to skill | Instincts → cluster → skill/command/agent |
-| Sharing | None | Export/import instincts |
+| 观察 (Observation) | Stop hook (会话结束) | PreToolUse/PostToolUse (100% 可靠) |
+| 分析 (Analysis) | 主上下文 | 后台 agent (Haiku) |
+| 粒度 (Granularity) | 完整技能 | 原子 "instincts" (本能) |
+| 置信度 (Confidence) | 无 | 0.3-0.9 加权 |
+| 演进 (Evolution) | 直接从 skill | Instincts → cluster → skill/command/agent |
+| 共享 (Sharing) | 无 | 导出/导入 instincts |
 
-## The Instinct Model
+## Instinct 模型
 
-An instinct is a small learned behavior:
+Instinct 是一个小的学习行为：
 
 ```yaml
 ---
@@ -42,13 +42,13 @@ Use functional patterns over classes when appropriate.
 - User corrected class-based approach to functional on 2025-01-15
 ```
 
-**Properties:**
-- **Atomic** — one trigger, one action
-- **Confidence-weighted** — 0.3 = tentative, 0.9 = near certain
-- **Domain-tagged** — code-style, testing, git, debugging, workflow, etc.
-- **Evidence-backed** — tracks what observations created it
+**属性:**
+- **原子性 (Atomic)** — 一个触发器，一个动作
+- **置信度加权 (Confidence-weighted)** — 0.3 = 试探性, 0.9 = 几乎确定
+- **领域标记 (Domain-tagged)** — code-style, testing, git, debugging, workflow, etc.
+- **证据支持 (Evidence-backed)** — 跟踪创建它的观察结果
 
-## How It Works
+## 工作原理
 
 ```
 Session Activity
@@ -88,11 +88,11 @@ Session Activity
 └─────────────────────────────────────────┘
 ```
 
-## Quick Start
+## 快速开始
 
-### 1. Enable Observation Hooks
+### 1. 启用观察 Hooks
 
-Add to your `~/.claude/settings.json`:
+添加到你的 `~/.claude/settings.json`:
 
 ```json
 {
@@ -115,34 +115,34 @@ Add to your `~/.claude/settings.json`:
 }
 ```
 
-### 2. Initialize Directory Structure
+### 2. 初始化目录结构
 
 ```bash
 mkdir -p ~/.claude/homunculus/{instincts/{personal,inherited},evolved/{agents,skills,commands}}
 touch ~/.claude/homunculus/observations.jsonl
 ```
 
-### 3. Run the Observer Agent (Optional)
+### 3. 运行观察者 Agent (可选)
 
-The observer can run in the background analyzing observations:
+观察者可以在后台运行分析观察结果：
 
 ```bash
 # Start background observer
 ~/.claude/skills/continuous-learning-v2/agents/start-observer.sh
 ```
 
-## Commands
+## 命令
 
 | Command | Description |
 |---------|-------------|
-| `/instinct-status` | Show all learned instincts with confidence |
-| `/evolve` | Cluster related instincts into skills/commands |
-| `/instinct-export` | Export instincts for sharing |
-| `/instinct-import <file>` | Import instincts from others |
+| `/instinct-status` | 显示所有已学习的 instincts 及其置信度 |
+| `/evolve` | 将相关的 instincts 聚类为 skills/commands |
+| `/instinct-export` | 导出 instincts 用于共享 |
+| `/instinct-import <file>` | 从其他人导入 instincts |
 
-## Configuration
+## 配置
 
-Edit `config.json`:
+编辑 `config.json`:
 
 ```json
 {
@@ -178,80 +178,80 @@ Edit `config.json`:
 }
 ```
 
-## File Structure
+## 文件结构
 
 ```
 ~/.claude/homunculus/
-├── identity.json           # Your profile, technical level
-├── observations.jsonl      # Current session observations
-├── observations.archive/   # Processed observations
+├── identity.json           # 你的资料，技术水平
+├── observations.jsonl      # 当前会话观察结果
+├── observations.archive/   # 处理过的观察结果
 ├── instincts/
-│   ├── personal/           # Auto-learned instincts
-│   └── inherited/          # Imported from others
+│   ├── personal/           # 自动学习的 instincts
+│   └── inherited/          # 从其他人导入
 └── evolved/
-    ├── agents/             # Generated specialist agents
-    ├── skills/             # Generated skills
-    └── commands/           # Generated commands
+    ├── agents/             # 生成的专家 agents
+    ├── skills/             # 生成的 skills
+    └── commands/           # 生成的 commands
 ```
 
-## Integration with Skill Creator
+## 与 Skill Creator 集成
 
-When you use the [Skill Creator GitHub App](https://skill-creator.app), it now generates **both**:
-- Traditional SKILL.md files (for backward compatibility)
-- Instinct collections (for v2 learning system)
+当你使用 [Skill Creator GitHub App](https://skill-creator.app) 时，它现在生成 **两者**：
+- 传统的 SKILL.md 文件 (为了向后兼容)
+- Instinct 集合 (为了 v2 学习系统)
 
-Instincts from repo analysis have `source: "repo-analysis"` and include the source repository URL.
+来自 repo 分析的 Instincts 具有 `source: "repo-analysis"` 并包含源仓库 URL。
 
-## Confidence Scoring
+## 置信度评分
 
-Confidence evolves over time:
+置信度随时间演变：
 
 | Score | Meaning | Behavior |
 |-------|---------|----------|
-| 0.3 | Tentative | Suggested but not enforced |
-| 0.5 | Moderate | Applied when relevant |
-| 0.7 | Strong | Auto-approved for application |
-| 0.9 | Near-certain | Core behavior |
+| 0.3 | 试探性 (Tentative) | 建议但不强制 |
+| 0.5 | 中等 (Moderate) | 相关时应用 |
+| 0.7 | 强 (Strong) | 自动批准应用 |
+| 0.9 | 几乎确定 (Near-certain) | 核心行为 |
 
-**Confidence increases** when:
-- Pattern is repeatedly observed
-- User doesn't correct the suggested behavior
-- Similar instincts from other sources agree
+**置信度增加** 当：
+- 模式被重复观察到
+- 用户不纠正建议的行为
+- 来自其他源的类似 instincts 一致
 
-**Confidence decreases** when:
-- User explicitly corrects the behavior
-- Pattern isn't observed for extended periods
-- Contradicting evidence appears
+**置信度降低** 当：
+- 用户明确纠正该行为
+- 模式长时间未被观察到
+- 出现矛盾的证据
 
-## Why Hooks vs Skills for Observation?
+## 为什么用 Hooks vs Skills 进行观察？
 
-> "v1 relied on skills to observe. Skills are probabilistic—they fire ~50-80% of the time based on Claude's judgment."
+> "v1 依靠技能进行观察。技能是概率性的——它们根据 Claude 的判断大约 50-80% 的时间触发。"
 
-Hooks fire **100% of the time**, deterministically. This means:
-- Every tool call is observed
-- No patterns are missed
-- Learning is comprehensive
+Hooks **100% 的时间** 确定性地触发。这意味着：
+- 每个工具调用都被观察到
+- 不会错过任何模式
+- 学习是全面的
 
-## Backward Compatibility
+## 向后兼容性
 
-v2 is fully compatible with v1:
-- Existing `~/.claude/skills/learned/` skills still work
-- Stop hook still runs (but now also feeds into v2)
-- Gradual migration path: run both in parallel
+v2 与 v1 完全兼容：
+- 现有的 `~/.claude/skills/learned/` 技能仍然工作
+- Stop hook 仍然运行 (但现在也馈送到 v2)
+- 渐进式迁移路径：并行运行两者
 
-## Privacy
+## 隐私
 
-- Observations stay **local** on your machine
-- Only **instincts** (patterns) can be exported
-- No actual code or conversation content is shared
-- You control what gets exported
+- 观察结果 **本地** 保留在你的机器上
+- 只有 **instincts** (模式) 可以被导出
+- 不其实际代码或对话内容被共享
+- 你控制导出的内容
 
-## Related
+## 相关
 
-- [Skill Creator](https://skill-creator.app) - Generate instincts from repo history
-- [Homunculus](https://github.com/humanplane/homunculus) - Inspiration for v2 architecture
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Continuous learning section
+- [Skill Creator](https://skill-creator.app) - 从 repo 历史生成 instincts
+- [Homunculus](https://github.com/humanplane/homunculus) - v2 架构的灵感
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - 持续学习章节
 
 ---
 
-*Instinct-based learning: teaching Claude your patterns, one observation at a time.*
+*基于 Instinct 的学习：通过一次一个观察结果，教 Claude 你的模式。*

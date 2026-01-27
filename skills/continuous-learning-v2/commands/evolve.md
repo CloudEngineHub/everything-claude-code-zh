@@ -1,88 +1,88 @@
 ---
 name: evolve
-description: Cluster related instincts into skills, commands, or agents
+description: 将相关的 instincts 聚类为 skills, commands, 或 agents
 command: /evolve
 implementation: python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py evolve
 ---
 
-# Evolve Command
+# Evolve Command (演化命令)
 
-## Implementation
+## 实施
 
 ```bash
 python3 ~/.claude/skills/continuous-learning-v2/scripts/instinct-cli.py evolve [--generate]
 ```
 
-Analyzes instincts and clusters related ones into higher-level structures:
-- **Commands**: When instincts describe user-invoked actions
-- **Skills**: When instincts describe auto-triggered behaviors
-- **Agents**: When instincts describe complex, multi-step processes
+分析 instincts 并将相关的聚类为更高级的结构：
+- **Commands**: 当 instincts 描述用户调用的操作时
+- **Skills**: 当 instincts 描述自动触发的行为时
+- **Agents**: 当 instincts 描述复杂、多步的过程时
 
-## Usage
+## 用法
 
 ```
-/evolve                    # Analyze all instincts and suggest evolutions
-/evolve --domain testing   # Only evolve instincts in testing domain
-/evolve --dry-run          # Show what would be created without creating
-/evolve --threshold 5      # Require 5+ related instincts to cluster
+/evolve                    # 分析所有 instincts 并建议演化
+/evolve --domain testing   # 仅演化 testing 域中的 instincts
+/evolve --dry-run          # 显示将要创建的内容而不实际创建
+/evolve --threshold 5      # 需要 5+ 相关的 instincts 才聚类
 ```
 
-## Evolution Rules
+## 演化规则
 
-### → Command (User-Invoked)
-When instincts describe actions a user would explicitly request:
-- Multiple instincts about "when user asks to..."
-- Instincts with triggers like "when creating a new X"
-- Instincts that follow a repeatable sequence
+### → Command (用户调用)
+当 instincts 描述用户会显式请求的操作时：
+- 关于 "当用户要求..." 的多个 instincts
+- 带有像 "当创建一个新 X 时" 触发器的 instincts
+- 遵循可重复序列的 instincts
 
-Example:
+示例：
 - `new-table-step1`: "when adding a database table, create migration"
 - `new-table-step2`: "when adding a database table, update schema"
 - `new-table-step3`: "when adding a database table, regenerate types"
 
-→ Creates: `/new-table` command
+→ 创建: `/new-table` command
 
-### → Skill (Auto-Triggered)
-When instincts describe behaviors that should happen automatically:
-- Pattern-matching triggers
-- Error handling responses
-- Code style enforcement
+### → Skill (自动触发)
+当 instincts 描述应该自动发生的行为时：
+- 模式匹配触发器
+- 错误处理响应
+- 代码风格强制
 
-Example:
+示例：
 - `prefer-functional`: "when writing functions, prefer functional style"
 - `use-immutable`: "when modifying state, use immutable patterns"
 - `avoid-classes`: "when designing modules, avoid class-based design"
 
-→ Creates: `functional-patterns` skill
+→ 创建: `functional-patterns` skill
 
-### → Agent (Needs Depth/Isolation)
-When instincts describe complex, multi-step processes that benefit from isolation:
-- Debugging workflows
-- Refactoring sequences
-- Research tasks
+### → Agent (需要深度/隔离)
+当 instincts 描述受益于隔离的复杂、多步过程时：
+- 调试工作流
+- 重构序列
+- 研究任务
 
-Example:
+示例：
 - `debug-step1`: "when debugging, first check logs"
 - `debug-step2`: "when debugging, isolate the failing component"
 - `debug-step3`: "when debugging, create minimal reproduction"
 - `debug-step4`: "when debugging, verify fix with test"
 
-→ Creates: `debugger` agent
+→ 创建: `debugger` agent
 
-## What to Do
+## 做什么
 
-1. Read all instincts from `~/.claude/homunculus/instincts/`
-2. Group instincts by:
-   - Domain similarity
-   - Trigger pattern overlap
-   - Action sequence relationship
-3. For each cluster of 3+ related instincts:
-   - Determine evolution type (command/skill/agent)
-   - Generate the appropriate file
-   - Save to `~/.claude/homunculus/evolved/{commands,skills,agents}/`
-4. Link evolved structure back to source instincts
+1. 读取 `~/.claude/homunculus/instincts/` 中的所有 instincts
+2. 通过以下方式分组 instincts:
+   - 域相似性
+   - 触发模式重叠
+   - 动作序列关系
+3. 对于每组 3+ 相关的 instincts:
+   - 确定演化类型 (command/skill/agent)
+   - 生成适当的文件
+   - 保存到 `~/.claude/homunculus/evolved/{commands,skills,agents}/`
+4. 将演化结构链接回源 instincts
 
-## Output Format
+## 输出格式
 
 ```
 🧬 Evolve Analysis
@@ -121,15 +121,15 @@ Files:
 Run `/evolve --execute` to create these files.
 ```
 
-## Flags
+## 标志 (Flags)
 
-- `--execute`: Actually create the evolved structures (default is preview)
-- `--dry-run`: Preview without creating
-- `--domain <name>`: Only evolve instincts in specified domain
-- `--threshold <n>`: Minimum instincts required to form cluster (default: 3)
-- `--type <command|skill|agent>`: Only create specified type
+- `--execute`: 实际创建演化结构 (默认是预览)
+- `--dry-run`: 预览而不创建
+- `--domain <name>`: 仅演化指定域中的 instincts
+- `--threshold <n>`: 形成聚类所需的最小 instincts 数 (默认: 3)
+- `--type <command|skill|agent>`: 仅创建指定类型
 
-## Generated File Format
+## 生成的文件格式
 
 ### Command
 ```markdown

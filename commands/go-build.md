@@ -1,47 +1,47 @@
 ---
-description: Fix Go build errors, go vet warnings, and linter issues incrementally. Invokes the go-build-resolver agent for minimal, surgical fixes.
+description: 增量修复 Go 构建错误、go vet 警告和 linter 问题。调用 go-build-resolver agent 进行最小化的、外科手术式的修复。
 ---
 
-# Go Build and Fix
+# Go 构建与修复 (Go Build and Fix)
 
-This command invokes the **go-build-resolver** agent to incrementally fix Go build errors with minimal changes.
+此命令调用 **go-build-resolver** agent 以最小的更改增量修复 Go 构建错误。
 
-## What This Command Does
+## 此命令的作用
 
-1. **Run Diagnostics**: Execute `go build`, `go vet`, `staticcheck`
-2. **Parse Errors**: Group by file and sort by severity
-3. **Fix Incrementally**: One error at a time
-4. **Verify Each Fix**: Re-run build after each change
-5. **Report Summary**: Show what was fixed and what remains
+1. **运行诊断**: 执行 `go build`, `go vet`, `staticcheck`
+2. **解析错误**: 按文件分组并按严重程度排序
+3. **增量修复**: 一次一个错误
+4. **验证每个修复**: 每次更改后重新运行构建
+5. **报告摘要**: 显示已修复的内容和剩余内容
 
-## When to Use
+## 何时使用
 
-Use `/go-build` when:
-- `go build ./...` fails with errors
-- `go vet ./...` reports issues
-- `golangci-lint run` shows warnings
-- Module dependencies are broken
-- After pulling changes that break the build
+在以下情况下使用 `/go-build`：
+- `go build ./...` 失败报错
+- `go vet ./...` 报告问题
+- `golangci-lint run` 显示警告
+- 模块依赖项损坏
+- 拉取了破坏构建的更改后
 
-## Diagnostic Commands Run
+## 运行的诊断命令
 
 ```bash
-# Primary build check
+# 主要构建检查
 go build ./...
 
-# Static analysis
+# 静态分析
 go vet ./...
 
-# Extended linting (if available)
+# 扩展 linting (如果可用)
 staticcheck ./...
 golangci-lint run
 
-# Module issues
+# 模块问题
 go mod verify
 go mod tidy -v
 ```
 
-## Example Session
+## 示例会话
 
 ```text
 User: /go-build
@@ -143,41 +143,41 @@ ok      project/internal/handler   0.023s
 Build Status: ✅ SUCCESS
 ```
 
-## Common Errors Fixed
+## 修复的常见错误
 
-| Error | Typical Fix |
+| 错误 | 典型修复 |
 |-------|-------------|
-| `undefined: X` | Add import or fix typo |
-| `cannot use X as Y` | Type conversion or fix assignment |
-| `missing return` | Add return statement |
-| `X does not implement Y` | Add missing method |
-| `import cycle` | Restructure packages |
-| `declared but not used` | Remove or use variable |
-| `cannot find package` | `go get` or `go mod tidy` |
+| `undefined: X` | 添加 import 或修复拼写错误 |
+| `cannot use X as Y` | 类型转换或修复赋值 |
+| `missing return` | 添加 return 语句 |
+| `X does not implement Y` | 添加缺失的方法 |
+| `import cycle` | 重组包 |
+| `declared but not used` | 移除或使用变量 |
+| `cannot find package` | `go get` 或 `go mod tidy` |
 
-## Fix Strategy
+## 修复策略
 
-1. **Build errors first** - Code must compile
-2. **Vet warnings second** - Fix suspicious constructs
-3. **Lint warnings third** - Style and best practices
-4. **One fix at a time** - Verify each change
-5. **Minimal changes** - Don't refactor, just fix
+1. **构建错误优先** - 代码必须能编译
+2. **Vet 警告其次** - 修复可疑的结构
+3. **Lint 警告再次** - 风格和最佳实践
+4. **一次修复一个** - 验证每次更改
+5. **最小化更改** - 不要重构，只修复
 
-## Stop Conditions
+## 停止条件
 
-The agent will stop and report if:
-- Same error persists after 3 attempts
-- Fix introduces more errors
-- Requires architectural changes
-- Missing external dependencies
+agent 将在以下情况下停止并报告：
+- 尝试 3 次后同一错误仍然存在
+- 修复引入了更多错误
+- 需要架构变更
+- 缺少外部依赖
 
-## Related Commands
+## 相关命令
 
-- `/go-test` - Run tests after build succeeds
-- `/go-review` - Review code quality
-- `/verify` - Full verification loop
+- `/go-test` - 构建成功后运行测试
+- `/go-review` - 审查代码质量
+- `/verify` - 完整验证循环
 
-## Related
+## 相关内容
 
 - Agent: `agents/go-build-resolver.md`
 - Skill: `skills/golang-patterns/`

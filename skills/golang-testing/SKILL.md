@@ -1,32 +1,32 @@
 ---
 name: golang-testing
-description: Go testing patterns including table-driven tests, subtests, benchmarks, fuzzing, and test coverage. Follows TDD methodology with idiomatic Go practices.
+description: Go 测试模式，包括表驱动测试、子测试、基准测试、模糊测试和测试覆盖率。遵循具有惯用 Go 实践的 TDD 方法论。
 ---
 
-# Go Testing Patterns
+# Go 测试模式 (Go Testing Patterns)
 
-Comprehensive Go testing patterns for writing reliable, maintainable tests following TDD methodology.
+编写可靠、可维护测试的综合 Go 测试模式，遵循 TDD 方法论。
 
-## When to Activate
+## 何时激活
 
-- Writing new Go functions or methods
-- Adding test coverage to existing code
-- Creating benchmarks for performance-critical code
-- Implementing fuzz tests for input validation
-- Following TDD workflow in Go projects
+- 编写新的 Go 函数或方法
+- 为现有代码添加测试覆盖率
+- 为性能关键代码创建基准测试
+- 为输入验证实施模糊测试
+- 在 Go 项目中遵循 TDD 工作流
 
-## TDD Workflow for Go
+## Go 的 TDD 工作流
 
-### The RED-GREEN-REFACTOR Cycle
+### 红-绿-重构 循环
 
 ```
-RED     → Write a failing test first
-GREEN   → Write minimal code to pass the test
-REFACTOR → Improve code while keeping tests green
-REPEAT  → Continue with next requirement
+RED     → 先写一个失败的测试
+GREEN   → 编写最少代码以通过测试
+REFACTOR → 改进代码同时保持测试通过
+REPEAT  → 继续下一个需求
 ```
 
-### Step-by-Step TDD in Go
+### Go 中的分步 TDD
 
 ```go
 // Step 1: Define the interface/signature
@@ -68,9 +68,9 @@ func Add(a, b int) int {
 // Step 6: Refactor if needed, verify tests still pass
 ```
 
-## Table-Driven Tests
+## 表驱动测试 (Table-Driven Tests)
 
-The standard pattern for Go tests. Enables comprehensive coverage with minimal code.
+Go 测试的标准模式。以最少的代码实现全面的覆盖。
 
 ```go
 func TestAdd(t *testing.T) {
@@ -98,7 +98,7 @@ func TestAdd(t *testing.T) {
 }
 ```
 
-### Table-Driven Tests with Error Cases
+### 带有错误用例的表驱动测试
 
 ```go
 func TestParseConfig(t *testing.T) {
@@ -153,9 +153,9 @@ func TestParseConfig(t *testing.T) {
 }
 ```
 
-## Subtests and Sub-benchmarks
+## 子测试和子基准测试
 
-### Organizing Related Tests
+### 组织相关测试
 
 ```go
 func TestUser(t *testing.T) {
@@ -193,7 +193,7 @@ func TestUser(t *testing.T) {
 }
 ```
 
-### Parallel Subtests
+### 并行子测试
 
 ```go
 func TestParallel(t *testing.T) {
@@ -218,9 +218,9 @@ func TestParallel(t *testing.T) {
 }
 ```
 
-## Test Helpers
+## 测试助手
 
-### Helper Functions
+### 助手函数
 
 ```go
 func setupTestDB(t *testing.T) *sql.DB {
@@ -259,7 +259,7 @@ func assertEqual[T comparable](t *testing.T, got, want T) {
 }
 ```
 
-### Temporary Files and Directories
+### 临时文件和目录
 
 ```go
 func TestFileProcessing(t *testing.T) {
@@ -286,7 +286,7 @@ func TestFileProcessing(t *testing.T) {
 
 ## Golden Files
 
-Testing against expected output files stored in `testdata/`.
+针对存储在 `testdata/` 中的预期输出文件进行测试。
 
 ```go
 var update = flag.Bool("update", false, "update golden files")
@@ -327,9 +327,9 @@ func TestRender(t *testing.T) {
 }
 ```
 
-## Mocking with Interfaces
+## 使用接口进行 Mocking
 
-### Interface-Based Mocking
+### 基于接口的 Mocking
 
 ```go
 // Define interface for dependencies
@@ -384,9 +384,9 @@ func TestUserService(t *testing.T) {
 }
 ```
 
-## Benchmarks
+## 基准测试
 
-### Basic Benchmarks
+### 基本基准测试
 
 ```go
 func BenchmarkProcess(b *testing.B) {
@@ -402,7 +402,7 @@ func BenchmarkProcess(b *testing.B) {
 // Output: BenchmarkProcess-8   10000   105234 ns/op   4096 B/op   10 allocs/op
 ```
 
-### Benchmark with Different Sizes
+### 不同大小的基准测试
 
 ```go
 func BenchmarkSort(b *testing.B) {
@@ -424,7 +424,7 @@ func BenchmarkSort(b *testing.B) {
 }
 ```
 
-### Memory Allocation Benchmarks
+### 内存分配基准测试
 
 ```go
 func BenchmarkStringConcat(b *testing.B) {
@@ -458,9 +458,9 @@ func BenchmarkStringConcat(b *testing.B) {
 }
 ```
 
-## Fuzzing (Go 1.18+)
+## 模糊测试 (Go 1.18+)
 
-### Basic Fuzz Test
+### 基本模糊测试
 
 ```go
 func FuzzParseJSON(f *testing.F) {
@@ -490,7 +490,7 @@ func FuzzParseJSON(f *testing.F) {
 // Run: go test -fuzz=FuzzParseJSON -fuzztime=30s
 ```
 
-### Fuzz Test with Multiple Inputs
+### 多个输入的模糊测试
 
 ```go
 func FuzzCompare(f *testing.F) {
@@ -518,9 +518,9 @@ func FuzzCompare(f *testing.F) {
 }
 ```
 
-## Test Coverage
+## 测试覆盖率 (Test Coverage)
 
-### Running Coverage
+### 运行覆盖率
 
 ```bash
 # Basic coverage
@@ -539,7 +539,7 @@ go tool cover -func=coverage.out
 go test -race -coverprofile=coverage.out ./...
 ```
 
-### Coverage Targets
+### 覆盖率目标
 
 | Code Type | Target |
 |-----------|--------|
@@ -548,7 +548,7 @@ go test -race -coverprofile=coverage.out ./...
 | General code | 80%+ |
 | Generated code | Exclude |
 
-### Excluding Generated Code from Coverage
+### 从覆盖率中排除生成的代码
 
 ```go
 //go:generate mockgen -source=interface.go -destination=mock_interface.go
@@ -557,7 +557,7 @@ go test -race -coverprofile=coverage.out ./...
 // go test -cover -tags=!generate ./...
 ```
 
-## HTTP Handler Testing
+## HTTP Handler 测试
 
 ```go
 func TestHealthHandler(t *testing.T) {
@@ -640,7 +640,7 @@ func TestAPIHandler(t *testing.T) {
 }
 ```
 
-## Testing Commands
+## 测试命令
 
 ```bash
 # Run all tests
@@ -677,25 +677,25 @@ go test -fuzz=FuzzParse -fuzztime=30s ./...
 go test -count=10 ./...
 ```
 
-## Best Practices
+## 最佳实践
 
 **DO:**
-- Write tests FIRST (TDD)
-- Use table-driven tests for comprehensive coverage
-- Test behavior, not implementation
-- Use `t.Helper()` in helper functions
-- Use `t.Parallel()` for independent tests
-- Clean up resources with `t.Cleanup()`
-- Use meaningful test names that describe the scenario
+- 先写测试 (TDD)
+- 使用表驱动测试以实现全面覆盖
+- 测试行为，而非实现
+- 在助手函数中使用 `t.Helper()`
+- 对独立测试使用 `t.Parallel()`
+- 使用 `t.Cleanup()` 清理资源
+- 使用描述场景的有意义的测试名称
 
 **DON'T:**
-- Test private functions directly (test through public API)
-- Use `time.Sleep()` in tests (use channels or conditions)
-- Ignore flaky tests (fix or remove them)
-- Mock everything (prefer integration tests when possible)
-- Skip error path testing
+- 直接测试私有函数（通过公共 API 测试）
+- 在测试中使用 `time.Sleep()`（使用通道或条件）
+- 忽略不稳定的测试（修复或移除它们）
+- Mock 一切（尽可能偏好集成测试）
+- 跳过错误路径测试
 
-## Integration with CI/CD
+## 与 CI/CD 集成
 
 ```yaml
 # GitHub Actions example
@@ -716,4 +716,4 @@ test:
         awk -F'%' '{if ($1 < 80) exit 1}'
 ```
 
-**Remember**: Tests are documentation. They show how your code is meant to be used. Write them clearly and keep them up to date.
+**记住**：测试即文档。它们展示了你的代码应如何被使用。清晰地编写它们并保持最新。

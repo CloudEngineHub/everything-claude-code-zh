@@ -1,23 +1,23 @@
 ---
 name: postgres-patterns
-description: PostgreSQL database patterns for query optimization, schema design, indexing, and security. Based on Supabase best practices.
+description: PostgreSQL 数据库模式，用于查询优化、架构设计、索引和安全。基于 Supabase 最佳实践。
 ---
 
-# PostgreSQL Patterns
+# PostgreSQL 模式 (PostgreSQL Patterns)
 
-Quick reference for PostgreSQL best practices. For detailed guidance, use the `database-reviewer` agent.
+PostgreSQL 最佳实践的快速参考。有关详细指导，使用 `database-reviewer` agent。
 
-## When to Activate
+## 何时激活
 
-- Writing SQL queries or migrations
-- Designing database schemas
-- Troubleshooting slow queries
-- Implementing Row Level Security
-- Setting up connection pooling
+- 编写 SQL 查询或迁移
+- 设计数据库架构
+- 排查慢查询
+- 实施行级安全 (RLS)
+- 设置连接池
 
-## Quick Reference
+## 快速参考
 
-### Index Cheat Sheet
+### 索引备忘单
 
 | Query Pattern | Index Type | Example |
 |--------------|------------|---------|
@@ -28,7 +28,7 @@ Quick reference for PostgreSQL best practices. For detailed guidance, use the `d
 | `WHERE tsv @@ query` | GIN | `CREATE INDEX idx ON t USING gin (col)` |
 | Time-series ranges | BRIN | `CREATE INDEX idx ON t USING brin (col)` |
 
-### Data Type Quick Reference
+### 数据类型快速参考
 
 | Use Case | Correct Type | Avoid |
 |----------|-------------|-------|
@@ -38,28 +38,28 @@ Quick reference for PostgreSQL best practices. For detailed guidance, use the `d
 | Money | `numeric(10,2)` | `float` |
 | Flags | `boolean` | `varchar`, `int` |
 
-### Common Patterns
+### 常见模式
 
-**Composite Index Order:**
+**组合索引顺序:**
 ```sql
--- Equality columns first, then range columns
+--Equality columns first, then range columns
 CREATE INDEX idx ON orders (status, created_at);
 -- Works for: WHERE status = 'pending' AND created_at > '2024-01-01'
 ```
 
-**Covering Index:**
+**覆盖索引:**
 ```sql
 CREATE INDEX idx ON users (email) INCLUDE (name, created_at);
 -- Avoids table lookup for SELECT email, name, created_at
 ```
 
-**Partial Index:**
+**部分索引:**
 ```sql
 CREATE INDEX idx ON users (email) WHERE deleted_at IS NULL;
 -- Smaller index, only includes active users
 ```
 
-**RLS Policy (Optimized):**
+**RLS 策略 (优化的):**
 ```sql
 CREATE POLICY policy ON orders
   USING ((SELECT auth.uid()) = user_id);  -- Wrap in SELECT!
@@ -73,13 +73,13 @@ ON CONFLICT (user_id, key)
 DO UPDATE SET value = EXCLUDED.value;
 ```
 
-**Cursor Pagination:**
+**游标分页:**
 ```sql
 SELECT * FROM products WHERE id > $last_id ORDER BY id LIMIT 20;
 -- O(1) vs OFFSET which is O(n)
 ```
 
-**Queue Processing:**
+**队列处理:**
 ```sql
 UPDATE jobs SET status = 'processing'
 WHERE id = (
@@ -89,7 +89,7 @@ WHERE id = (
 ) RETURNING *;
 ```
 
-### Anti-Pattern Detection
+### 反模式检测
 
 ```sql
 -- Find unindexed foreign keys
@@ -115,7 +115,7 @@ WHERE n_dead_tup > 1000
 ORDER BY n_dead_tup DESC;
 ```
 
-### Configuration Template
+### 配置模板
 
 ```sql
 -- Connection limits (adjust for RAM)
@@ -135,12 +135,8 @@ REVOKE ALL ON SCHEMA public FROM public;
 SELECT pg_reload_conf();
 ```
 
-## Related
+## 相关
 
-- Agent: `database-reviewer` - Full database review workflow
-- Skill: `clickhouse-io` - ClickHouse analytics patterns
-- Skill: `backend-patterns` - API and backend patterns
-
----
-
-*Based on [Supabase Agent Skills](https://github.com/supabase/agent-skills) (MIT License)*
+- Agent: `database-reviewer` - 完整的数据库审查工作流
+- Skill: `clickhouse-io` - ClickHouse 分析模式
+- Skill: `backend-patterns` - API 和后端模式

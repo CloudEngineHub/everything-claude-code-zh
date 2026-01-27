@@ -1,25 +1,25 @@
-# Project Guidelines Skill (Example)
+# 项目指南技能 (示例)
 
-This is an example of a project-specific skill. Use this as a template for your own projects.
+这是一个项目特定技能的示例。将其作为你自己项目的模板。
 
-Based on a real production application: [Zenith](https://zenith.chat) - AI-powered customer discovery platform.
-
----
-
-## When to Use
-
-Reference this skill when working on the specific project it's designed for. Project skills contain:
-- Architecture overview
-- File structure
-- Code patterns
-- Testing requirements
-- Deployment workflow
+基于一个真实的生产应用程序: [Zenith](https://zenith.chat) - AI 驱动的客户发现平台。
 
 ---
 
-## Architecture Overview
+## 何时使用
 
-**Tech Stack:**
+在为该技能设计的特定项目上工作时参考此技能。项目技能包含：
+- 架构概览
+- 文件结构
+- 代码模式
+- 测试要求
+- 部署工作流
+
+---
+
+## 架构概览
+
+**技术栈:**
 - **Frontend**: Next.js 15 (App Router), TypeScript, React
 - **Backend**: FastAPI (Python), Pydantic models
 - **Database**: Supabase (PostgreSQL)
@@ -27,7 +27,7 @@ Reference this skill when working on the specific project it's designed for. Pro
 - **Deployment**: Google Cloud Run
 - **Testing**: Playwright (E2E), pytest (backend), React Testing Library
 
-**Services:**
+**服务:**
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │                         Frontend                            │
@@ -52,7 +52,7 @@ Reference this skill when working on the specific project it's designed for. Pro
 
 ---
 
-## File Structure
+## 文件结构
 
 ```
 project/
@@ -87,9 +87,9 @@ project/
 
 ---
 
-## Code Patterns
+## 代码模式
 
-### API Response Format (FastAPI)
+### API 响应格式 (FastAPI)
 
 ```python
 from pydantic import BaseModel
@@ -111,7 +111,7 @@ class ApiResponse(BaseModel, Generic[T]):
         return cls(success=False, error=error)
 ```
 
-### Frontend API Calls (TypeScript)
+### 前端 API 调用 (TypeScript)
 
 ```typescript
 interface ApiResponse<T> {
@@ -144,7 +144,7 @@ async function fetchApi<T>(
 }
 ```
 
-### Claude AI Integration (Structured Output)
+### Claude AI 集成 (结构化输出)
 
 ```python
 from anthropic import Anthropic
@@ -179,7 +179,7 @@ async def analyze_with_claude(content: str) -> AnalysisResult:
     return AnalysisResult(**tool_use.input)
 ```
 
-### Custom Hooks (React)
+### 自定义 Hooks (React)
 
 ```typescript
 import { useState, useCallback } from 'react'
@@ -217,7 +217,7 @@ export function useApi<T>(
 
 ---
 
-## Testing Requirements
+## 测试要求
 
 ### Backend (pytest)
 
@@ -232,7 +232,7 @@ poetry run pytest tests/ --cov=. --cov-report=html
 poetry run pytest tests/test_auth.py -v
 ```
 
-**Test structure:**
+**测试结构:**
 ```python
 import pytest
 from httpx import AsyncClient
@@ -263,7 +263,7 @@ npm run test -- --coverage
 npm run test:e2e
 ```
 
-**Test structure:**
+**测试结构:**
 ```typescript
 import { render, screen, fireEvent } from '@testing-library/react'
 import { WorkspacePanel } from './WorkspacePanel'
@@ -284,18 +284,18 @@ describe('WorkspacePanel', () => {
 
 ---
 
-## Deployment Workflow
+## 部署工作流
 
-### Pre-Deployment Checklist
+### 部署前检查清单
 
-- [ ] All tests passing locally
-- [ ] `npm run build` succeeds (frontend)
-- [ ] `poetry run pytest` passes (backend)
-- [ ] No hardcoded secrets
-- [ ] Environment variables documented
-- [ ] Database migrations ready
+- [ ] 所有测试在本地通过
+- [ ] `npm run build` 成功 (frontend)
+- [ ] `poetry run pytest` 通过 (backend)
+- [ ] 没有硬编码的 secrets
+- [ ] 环境变量已记录
+- [ ] 数据库迁移已准备就绪
 
-### Deployment Commands
+### 部署命令
 
 ```bash
 # Build and deploy frontend
@@ -307,7 +307,7 @@ cd backend
 gcloud run deploy backend --source .
 ```
 
-### Environment Variables
+### 环境变量
 
 ```bash
 # Frontend (.env.local)
@@ -324,22 +324,22 @@ SUPABASE_KEY=eyJ...
 
 ---
 
-## Critical Rules
+## 关键规则
 
-1. **No emojis** in code, comments, or documentation
-2. **Immutability** - never mutate objects or arrays
-3. **TDD** - write tests before implementation
-4. **80% coverage** minimum
-5. **Many small files** - 200-400 lines typical, 800 max
-6. **No console.log** in production code
-7. **Proper error handling** with try/catch
-8. **Input validation** with Pydantic/Zod
+1. **没有 emojis** 在代码、注释或文档中
+2. **不可变性 (Immutability)** - 永远不要突变对象或数组
+3. **TDD** - 在实施前编写测试
+4. **80% 覆盖率** 最低
+5. **许多小文件** - 典型 200-400 行，最大 800 行
+6. **没有 console.log** 在生产代码中
+7. **适当的错误处理** 使用 try/catch
+8. **输入验证** 使用 Pydantic/Zod
 
 ---
 
-## Related Skills
+## 相关技能
 
-- `coding-standards.md` - General coding best practices
-- `backend-patterns.md` - API and database patterns
-- `frontend-patterns.md` - React and Next.js patterns
-- `tdd-workflow/` - Test-driven development methodology
+- `coding-standards.md` - 通用编码最佳实践
+- `backend-patterns.md` - API 和数据库模式
+- `frontend-patterns.md` - React 和 Next.js 模式
+- `tdd-workflow/` - 测试驱动开发方法论

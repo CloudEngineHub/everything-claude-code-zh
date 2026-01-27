@@ -1,37 +1,37 @@
-# Checkpoint Command
+# Checkpoint 命令
 
-Create or verify a checkpoint in your workflow.
+在你的工作流中创建或验证 checkpoint（检查点）。
 
-## Usage
+## 用法
 
 `/checkpoint [create|verify|list] [name]`
 
-## Create Checkpoint
+## 创建 Checkpoint
 
-When creating a checkpoint:
+创建 checkpoint 时：
 
-1. Run `/verify quick` to ensure current state is clean
-2. Create a git stash or commit with checkpoint name
-3. Log checkpoint to `.claude/checkpoints.log`:
+1. 运行 `/verify quick` 以确保当前状态是干净的
+2. 使用 checkpoint 名称创建 git stash 或 commit
+3. 将 checkpoint 记录到 `.claude/checkpoints.log`：
 
 ```bash
 echo "$(date +%Y-%m-%d-%H:%M) | $CHECKPOINT_NAME | $(git rev-parse --short HEAD)" >> .claude/checkpoints.log
 ```
 
-4. Report checkpoint created
+4. 报告 checkpoint 已创建
 
-## Verify Checkpoint
+## 验证 Checkpoint
 
-When verifying against a checkpoint:
+针对 checkpoint 进行验证时：
 
-1. Read checkpoint from log
-2. Compare current state to checkpoint:
-   - Files added since checkpoint
-   - Files modified since checkpoint
-   - Test pass rate now vs then
-   - Coverage now vs then
+1. 从日志中读取 checkpoint
+2. 将当前状态与 checkpoint 进行比较：
+   - 自 checkpoint 以来添加的文件
+   - 自 checkpoint 以来修改的文件
+   - 现在 vs 当时的测试通过率
+   - 现在 vs 当时的覆盖率
 
-3. Report:
+3. 报告：
 ```
 CHECKPOINT COMPARISON: $NAME
 ============================
@@ -41,34 +41,34 @@ Coverage: +X% / -Y%
 Build: [PASS/FAIL]
 ```
 
-## List Checkpoints
+## 列出 Checkpoints
 
-Show all checkpoints with:
-- Name
-- Timestamp
+显示所有 checkpoints 及其：
+- 名称
+- 时间戳
 - Git SHA
-- Status (current, behind, ahead)
+- 状态 (current, behind, ahead)
 
-## Workflow
+## 工作流
 
-Typical checkpoint flow:
+典型的 checkpoint 流程：
 
 ```
-[Start] --> /checkpoint create "feature-start"
+[开始] --> /checkpoint create "feature-start"
    |
-[Implement] --> /checkpoint create "core-done"
+[实现] --> /checkpoint create "core-done"
    |
-[Test] --> /checkpoint verify "core-done"
+[测试] --> /checkpoint verify "core-done"
    |
-[Refactor] --> /checkpoint create "refactor-done"
+[重构] --> /checkpoint create "refactor-done"
    |
 [PR] --> /checkpoint verify "feature-start"
 ```
 
-## Arguments
+## 参数
 
 $ARGUMENTS:
-- `create <name>` - Create named checkpoint
-- `verify <name>` - Verify against named checkpoint
-- `list` - Show all checkpoints
-- `clear` - Remove old checkpoints (keeps last 5)
+- `create <name>` - 创建指定名称的 checkpoint
+- `verify <name>` - 针对指定名称的 checkpoint 进行验证
+- `list` - 显示所有 checkpoints
+- `clear` - 移除旧的 checkpoints（保留最后 5 个）

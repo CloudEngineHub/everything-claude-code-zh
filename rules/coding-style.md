@@ -1,8 +1,8 @@
-# Coding Style
+# 编码风格 (Coding Style)
 
-## Immutability (CRITICAL)
+## 不可变性 (Immutability) (关键)
 
-ALWAYS create new objects, NEVER mutate:
+永远创建新对象，永远不要突变 (NEVER mutate):
 
 ```javascript
 // WRONG: Mutation
@@ -20,17 +20,17 @@ function updateUser(user, name) {
 }
 ```
 
-## File Organization
+## 文件组织
 
-MANY SMALL FILES > FEW LARGE FILES:
-- High cohesion, low coupling
-- 200-400 lines typical, 800 max
-- Extract utilities from large components
-- Organize by feature/domain, not by type
+许多小文件 > 少数大文件:
+- 高内聚，低耦合
+- 200-400 行典型，最大 800 行
+- 从大组件中提取实用程序
+- 按特性/领域组织，而不是按类型
 
-## Error Handling
+## 错误处理
 
-ALWAYS handle errors comprehensively:
+始终全面处理错误：
 
 ```typescript
 try {
@@ -42,9 +42,9 @@ try {
 }
 ```
 
-## Input Validation
+## 输入验证
 
-ALWAYS validate user input:
+始终验证用户输入：
 
 ```typescript
 import { z } from 'zod'
@@ -57,14 +57,14 @@ const schema = z.object({
 const validated = schema.parse(input)
 ```
 
-## Code Quality Checklist
+## 代码质量检查清单
 
-Before marking work complete:
-- [ ] Code is readable and well-named
-- [ ] Functions are small (<50 lines)
-- [ ] Files are focused (<800 lines)
-- [ ] No deep nesting (>4 levels)
-- [ ] Proper error handling
-- [ ] No console.log statements
-- [ ] No hardcoded values
-- [ ] No mutation (immutable patterns used)
+在标记工作完成之前：
+- [ ] 代码可读且命名良好
+- [ ] 函数很小 (<50 行)
+- [ ] 文件是专注的 (<800 行)
+- [ ] 没有深度嵌套 (>4 层)
+- [ ] 适当的错误处理
+- [ ] 没有 console.log 语句
+- [ ] 没有硬编码值
+- [ ] 没有突变 (使用不可变模式)

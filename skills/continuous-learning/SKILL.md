@@ -1,23 +1,23 @@
 ---
 name: continuous-learning
-description: Automatically extract reusable patterns from Claude Code sessions and save them as learned skills for future use.
+description: 自动从 Claude Code 会话中提取可重用模式，并将其保存为 learned skills 供将来使用。
 ---
 
-# Continuous Learning Skill
+# 持续学习技能 (Continuous Learning Skill)
 
-Automatically evaluates Claude Code sessions on end to extract reusable patterns that can be saved as learned skills.
+自动在结束时评估 Claude Code 会话，以提取可重用模式并将其保存为 learned skills。
 
-## How It Works
+## 工作原理
 
-This skill runs as a **Stop hook** at the end of each session:
+此技能作为 **Stop hook** 在每个会话结束时运行：
 
-1. **Session Evaluation**: Checks if session has enough messages (default: 10+)
-2. **Pattern Detection**: Identifies extractable patterns from the session
-3. **Skill Extraction**: Saves useful patterns to `~/.claude/skills/learned/`
+1. **会话评估**: 检查会话是否有足够的消息 (默认: 10+)
+2. **模式检测**: 识别会话中可提取的模式
+3. **技能提取**: 将有用的模式保存到 `~/.claude/skills/learned/`
 
-## Configuration
+## 配置
 
-Edit `config.json` to customize:
+编辑 `config.json` 进行自定义：
 
 ```json
 {
@@ -40,19 +40,19 @@ Edit `config.json` to customize:
 }
 ```
 
-## Pattern Types
+## 模式类型
 
 | Pattern | Description |
 |---------|-------------|
-| `error_resolution` | How specific errors were resolved |
-| `user_corrections` | Patterns from user corrections |
-| `workarounds` | Solutions to framework/library quirks |
-| `debugging_techniques` | Effective debugging approaches |
-| `project_specific` | Project-specific conventions |
+| `error_resolution` | 特定错误是如何解决的 |
+| `user_corrections` | 来自用户纠正的模式 |
+| `workarounds` | 框架/库怪癖的解决方案 |
+| `debugging_techniques` | 有效的调试方法 |
+| `project_specific` | 项目特定约定 |
 
-## Hook Setup
+## Hook 设置
 
-Add to your `~/.claude/settings.json`:
+添加到你的 `~/.claude/settings.json`:
 
 ```json
 {
@@ -68,43 +68,43 @@ Add to your `~/.claude/settings.json`:
 }
 ```
 
-## Why Stop Hook?
+## 为什么使用 Stop Hook?
 
-- **Lightweight**: Runs once at session end
-- **Non-blocking**: Doesn't add latency to every message
-- **Complete context**: Has access to full session transcript
+- **轻量级**: 会话结束时运行一次
+- **非阻塞**: 不会给每条消息增加延迟
+- **完整上下文**: 可以访问完整的会话记录
 
-## Related
+## 相关
 
-- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - Section on continuous learning
-- `/learn` command - Manual pattern extraction mid-session
+- [The Longform Guide](https://x.com/affaanmustafa/status/2014040193557471352) - 持续学习章节
+- `/learn` 命令 - 会话中手动提取模式
 
 ---
 
-## Comparison Notes (Research: Jan 2025)
+## 比较说明 (Research: Jan 2025)
 
 ### vs Homunculus (github.com/humanplane/homunculus)
 
-Homunculus v2 takes a more sophisticated approach:
+Homunculus v2 采取了更复杂的方法：
 
 | Feature | Our Approach | Homunculus v2 |
 |---------|--------------|---------------|
-| Observation | Stop hook (end of session) | PreToolUse/PostToolUse hooks (100% reliable) |
-| Analysis | Main context | Background agent (Haiku) |
-| Granularity | Full skills | Atomic "instincts" |
-| Confidence | None | 0.3-0.9 weighted |
-| Evolution | Direct to skill | Instincts → cluster → skill/command/agent |
-| Sharing | None | Export/import instincts |
+| 观察 (Observation) | Stop hook (会话结束) | PreToolUse/PostToolUse hooks (100% 可靠) |
+| 分析 (Analysis) | 主上下文 | 后台 agent (Haiku) |
+| 粒度 (Granularity) | 完整技能 | 原子 "instincts" (本能) |
+| 置信度 (Confidence) | 无 | 0.3-0.9 加权 |
+| 演进 (Evolution) | 直接从 skill | Instincts → cluster → skill/command/agent |
+| 共享 (Sharing) | 无 | 导出/导入 instincts |
 
-**Key insight from homunculus:**
-> "v1 relied on skills to observe. Skills are probabilistic—they fire ~50-80% of the time. v2 uses hooks for observation (100% reliable) and instincts as the atomic unit of learned behavior."
+**来自 homunculus 的关键见解:**
+> "v1 依靠技能进行观察。技能是概率性的——它们大约 50-80% 的时间触发。v2 使用 hooks 进行观察（100% 可靠）并将 instincts 作为学习行为的原子单位。"
 
-### Potential v2 Enhancements
+### 潜在 v2 增强功能
 
-1. **Instinct-based learning** - Smaller, atomic behaviors with confidence scoring
-2. **Background observer** - Haiku agent analyzing in parallel
-3. **Confidence decay** - Instincts lose confidence if contradicted
-4. **Domain tagging** - code-style, testing, git, debugging, etc.
-5. **Evolution path** - Cluster related instincts into skills/commands
+1. **基于 Instinct 的学习** - 具有置信度评分的更小、原子行为
+2. **后台观察者** - 并行分析的 Haiku agent
+3. **置信度衰减** - 如果 instincts 被反驳，置信度会降低
+4. **领域标记** - code-style, testing, git, debugging, etc.
+5. **演进路径** - 将相关的 instincts 聚类为 skills/commands
 
-See: `/Users/affoon/Documents/tasks/12-continuous-learning-v2.md` for full spec.
+参见: `/Users/affoon/Documents/tasks/12-continuous-learning-v2.md` 获取完整规范。
