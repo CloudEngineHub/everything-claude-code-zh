@@ -21,19 +21,6 @@
 
 > **182K+ stars** | **28K+ forks** | **170+ contributors** | **12+ language ecosystems** | **跨 harness 智能体工作流**
 
----
-
-<div align="center">
-
-**Language / 语言 / 語言 / Dil / Язык / Ngôn ngữ**
-
-[**English**](README.md) | [Português (Brasil)](docs/pt-BR/README.md) | [简体中文](README.zh-CN.md) | [繁體中文](docs/zh-TW/README.md) | [日本語](docs/ja-JP/README.md) | [한국어](docs/ko-KR/README.md)
- | [Türkçe](docs/tr/README.md) | [Русский](docs/ru/README.md) | [Tiếng Việt](docs/vi-VN/README.md) | [ไทย](docs/th/README.md) | [Deutsch](docs/de-DE/README.md)
-
-</div>
-
----
-
 **适用于智能体工作的 harness 原生操作系统。基于真实的多 harness 工程工作流构建。**
 
 不仅仅是配置。一个完整的系统：技能、直觉、内存优化、持续学习、安全扫描和研究优先开发。生产就绪的智能体、技能、钩子、规则、MCP 配置和传统命令 shims，经过 10 多个月的密集日常使用不断进化，用于构建真实产品。
