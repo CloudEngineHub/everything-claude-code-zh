@@ -1,4 +1,4 @@
-# Style Presets Reference
+# 样式预设参考
 
 Curated visual styles for `frontend-slides`.
 
