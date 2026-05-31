@@ -1,6 +1,7 @@
 ---
 name: coding-standards
 description: 适用于 TypeScript、JavaScript、React 和 Node.js 开发的通用编码标准、最佳实践和模式。
+origin: ECC
 ---
 
 # 编码标准 & 最佳实践 (Coding Standards & Best Practices)
@@ -213,7 +214,7 @@ setCount(prev => prev + 1)
 setCount(count + 1)  // Can be stale in async scenarios
 ```
 
-###以此渲染
+### 条件渲染
 
 ```typescript
 // ✅ GOOD: 清晰的条件渲染

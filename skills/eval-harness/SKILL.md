@@ -2,6 +2,7 @@
 name: eval-harness
 description: Claude Code 会话的正式评估框架，实施 eval-driven development (EDD) 原则
 tools: Read, Write, Edit, Bash, Grep, Glob
+origin: ECC
 ---
 
 # Eval Harness Skill

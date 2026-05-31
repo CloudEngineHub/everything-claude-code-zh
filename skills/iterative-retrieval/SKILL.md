@@ -1,6 +1,7 @@
 ---
 name: iterative-retrieval
 description: 逐步细化上下文检索以解决子 agent 上下文问题的模式
+origin: ECC
 ---
 
 # 迭代检索模式 (Iterative Retrieval Pattern)

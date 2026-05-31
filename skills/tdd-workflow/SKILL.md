@@ -1,6 +1,7 @@
 ---
 name: tdd-workflow
 description: 在编写新功能、修复 bug 或重构代码时使用此技能。强制执行具有 80%+ 覆盖率（包括单元测试、集成测试和 E2E 测试）的测试驱动开发。
+origin: ECC
 ---
 
 # 测试驱动开发工作流 (Test-Driven Development Workflow)

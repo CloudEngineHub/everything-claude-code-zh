@@ -19,7 +19,7 @@ Idiomatic React 18/19 patterns for building robust, accessible, performant compo
 - Implementing forms with React 19 actions or controlled inputs
 - Wiring data fetching with TanStack Query / SWR / RSC
 
-## 核心原则s
+## 核心原则
 
 ### 1. Render is a Pure Function of Props and State
 

@@ -1,6 +1,7 @@
 ---
 name: continuous-learning
 description: 自动从 Claude Code 会话中提取可重用模式，并将其保存为 learned skills 供将来使用。
+origin: ECC
 ---
 
 # 持续学习技能 (Continuous Learning Skill)

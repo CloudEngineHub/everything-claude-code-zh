@@ -1,6 +1,7 @@
 ---
 name: security-review
 description: 当添加认证、处理用户输入、使用 secrets、创建 API 端点或实施支付/敏感功能时使用此技能。提供全面的安全检查清单和模式。
+origin: ECC
 ---
 
 # 安全审查技能 (Security Review Skill)

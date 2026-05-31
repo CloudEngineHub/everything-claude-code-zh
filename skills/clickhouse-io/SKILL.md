@@ -1,6 +1,7 @@
 ---
 name: clickhouse-io
 description: 针对高性能分析工作负载的 ClickHouse 数据库模式、查询优化、分析和数据工程最佳实践。
+origin: ECC
 ---
 
 # ClickHouse 分析模式 (ClickHouse Analytics Patterns)

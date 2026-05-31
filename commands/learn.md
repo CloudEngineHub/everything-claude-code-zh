@@ -1,3 +1,7 @@
+---
+description: 从当前会话中提取可重用模式并保存为候选技能或指南。
+---
+
 # /learn - 提取可重用模式 (Extract Reusable Patterns)
 
 分析当前会话并提取任何值得保存为 skill 的模式。

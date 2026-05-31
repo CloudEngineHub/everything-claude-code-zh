@@ -1,3 +1,7 @@
+---
+description: 在运行验证检查后创建、验证或列出工作流检查点。
+---
+
 # Checkpoint 命令
 
 在你的工作流中创建或验证 checkpoint（检查点）。

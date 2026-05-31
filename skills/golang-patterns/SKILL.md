@@ -1,6 +1,7 @@
 ---
 name: golang-patterns
 description: 惯用的 Go 模式、最佳实践和约定，用于构建健壮、高效和可维护的 Go 应用程序。
+origin: ECC
 ---
 
 # Go 开发模式 (Go Development Patterns)
