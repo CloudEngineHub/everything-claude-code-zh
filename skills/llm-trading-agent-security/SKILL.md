@@ -1,28 +1,28 @@
 ---
 name: llm-trading-agent-security
-description: LLM 交易智能体安全模式——提示注入防护、交易授权、风险评估和审计日志，适用于 AI 驱动的交易系统。
+description: 具有钱包或交易权限的自主交易智能体的安全模式。涵盖提示注入、支出限制、发送前模拟、熔断器、MEV 保护和密钥处理。
 origin: ECC direct-port adaptation
 version: "1.0.0"
 ---
 
-# LLM Trading Agent Security
+# LLM 交易智能体安全
 
-Autonomous trading agents have a harsher threat model than normal LLM apps: an injection or bad tool path can turn directly into asset loss.
+自主交易智能体比普通 LLM 应用面临更严峻的威胁模型：一次注入或错误工具调用可能直接导致资产损失。
 
-## When to Use
+## 何时使用
 
-- Building an AI agent that signs and sends transactions
-- Auditing a trading bot or on-chain execution assistant
-- Designing wallet key management for an agent
-- Giving an LLM access to order placement, swaps, or treasury operations
+- 构建签名和发送交易的 AI 智能体
+- 审计交易机器人或链上执行助手
+- 为智能体设计钱包密钥管理
+- 向 LLM 授予下单、兑换或资金库操作的访问权限
 
-## How It Works
+## 工作原理
 
-Layer the defenses. No single check is enough. Treat prompt hygiene, spend policy, simulation, execution limits, and wallet isolation as independent controls.
+分层防御。单一检查不够。将提示词卫生、支出策略、模拟、执行限制和钱包隔离视为独立控制层。
 
-## Examples
+## 示例
 
-### Treat prompt injection as a financial attack
+### 将提示注入视为金融攻击
 
 ```python
 import re
@@ -43,9 +43,9 @@ def sanitize_onchain_data(text: str) -> str:
     return text
 ```
 
-Do not blindly inject token names, pair labels, webhooks, or social feeds into an execution-capable prompt.
+不要盲目将代币名称、交易对标签、Webhook 或社交动态注入可执行的提示词中。
 
-### Hard spend limits
+### 硬性支出限制
 
 ```python
 from decimal import Decimal
@@ -68,7 +68,7 @@ class SpendLimitGuard:
         self._record_spend(usd_amount)
 ```
 
-### Simulate before sending
+### 发送前模拟
 
 ```python
 class SlippageError(Exception):
@@ -88,7 +88,7 @@ async def safe_execute(self, tx: dict, expected_min_out: int | None = None) -> s
     return await self.w3.eth.send_raw_transaction(signed.raw_transaction)
 ```
 
-### Circuit breaker
+### 熔断器
 
 ```python
 class TradingCircuitBreaker:
@@ -108,7 +108,7 @@ class TradingCircuitBreaker:
             self.halt(f"Hourly PnL {hourly_pnl:.1%} below threshold")
 ```
 
-### Wallet isolation
+### 钱包隔离
 
 ```python
 import os
@@ -121,9 +121,9 @@ if not private_key:
 account = Account.from_key(private_key)
 ```
 
-Use a dedicated hot wallet with only the required session funds. Never point the agent at a primary treasury wallet.
+使用仅包含所需会话资金的专用热钱包。绝不要让智能体直接访问主力资金库钱包。
 
-### MEV and deadline protection
+### MEV 和截止时间保护
 
 ```python
 import time
@@ -133,14 +133,14 @@ MAX_SLIPPAGE_BPS = {"stable": 10, "volatile": 50}
 deadline = int(time.time()) + 60
 ```
 
-## Pre-Deploy Checklist
+## 部署前检查清单
 
-- External data is sanitized before entering the LLM context
-- Spend limits are enforced independently from model output
-- Transactions are simulated before send
-- `min_amount_out` is mandatory
-- Circuit breakers halt on drawdown or invalid state
-- Keys come from env or a secret manager, never code or logs
-- Private mempool or protected routing is used when appropriate
-- Slippage and deadlines are set per strategy
-- All agent decisions are audit-logged, not just successful sends
+- 外部数据在进入 LLM 上下文之前已清理
+- 支出限制独立于模型输出执行
+- 交易在发送前经过模拟
+- `min_amount_out` 是强制性的
+- 熔断器在回撤或无效状态时停止
+- 密钥来自环境变量或密钥管理器，绝不来自代码或日志
+- 在适当情况下使用私有内存池或受保护路由
+- 滑点和截止时间按策略设置
+- 所有智能体决策都有审计日志，不仅是成功的发送

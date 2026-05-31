@@ -1,16 +1,16 @@
 ---
 name: motion-ui
-description: UI 动效模式——交互反馈、状态转换、加载状态和入场/退场动画。
+description: "适用于 React/Next.js 的生产就绪 UI 动效系统。实现动画、过渡或动效模式时使用。"
 origin: ECC
 ---
 
-# Motion System v4.2
+# 动效系统 v4.2
 
 Production-ready UI motion system for React / Next.js.
 
 Focused on **performance, accessibility, and usability** — not decoration.
 
-## When to Use
+## 何时使用
 
 Use this motion system when motion:
 
@@ -38,9 +38,9 @@ Use this motion system when motion:
 
 ---
 
-## How It Works
+## 工作原理
 
-### Core Principle
+### 核心原则
 
 Motion must:
 
@@ -52,7 +52,7 @@ If it does none → remove it.
 
 ---
 
-### Installation
+### 安装
 
 ```bash
 npm install motion
@@ -60,7 +60,7 @@ npm install motion
 
 ---
 
-### Version
+### 版本
 
 * `motion/react` - default for current Motion for React projects (package: `motion`)
 * `framer-motion` - legacy import path for projects that still depend on Framer Motion
@@ -87,7 +87,7 @@ import { motion, AnimatePresence } from "framer-motion"
 
 ---
 
-### Motion Tokens
+### 动效令牌
 
 ```ts
 // motionTokens.ts
@@ -128,7 +128,7 @@ import { motionTokens } from "@/lib/motionTokens"
 
 ---
 
-### Performance Rules
+### 性能规则
 
 **Safe**
 
@@ -144,7 +144,7 @@ Rule: responsiveness > smoothness
 
 ---
 
-### Device Adaptation
+### 设备适配
 
 The heuristic combines CPU core count **and** available memory for a more reliable signal. `deviceMemory` is available on Chrome/Android; the fallback covers Safari and Firefox.
 
@@ -162,7 +162,7 @@ const duration = isLowEnd ? 0.2 : 0.4
 
 ---
 
-### Accessibility
+### 可访问性
 
 #### JS (useReducedMotion)
 
@@ -203,9 +203,9 @@ export function FadeIn() {
 
 ---
 
-### Architecture & Patterns
+### 架构与模式
 
-#### Core Patterns
+#### 核心模式
 
 | Scenario | Pattern |
 |---|---|
@@ -220,7 +220,7 @@ export function FadeIn() {
 
 > **Why avoid `layout` on large containers?** Framer's layout animation uses `transform` to reconcile positions, but on elements that span the full viewport or trigger deep reflow, the measurement cost causes visible jank and CLS. Prefer CSS Grid/Flexbox transitions or coordinate with `layoutId` on specific child elements only.
 
-#### Layout & Transitions
+#### 布局与过渡
 
 * Shared element transitions → `layoutId` (must be unique per mounted instance)
 * Enter / exit transitions → `AnimatePresence` (see `mode` guidance below)
@@ -249,7 +249,7 @@ Always specify `mode` explicitly — the default (`"sync"`) runs enter and exit 
 
 ---
 
-### Advanced Patterns (Concepts)
+### 高级模式（概念）
 
 * Parallax (scroll-linked transforms)
 * Scroll storytelling (sticky sections)
@@ -262,7 +262,7 @@ Always specify `mode` explicitly — the default (`"sync"`) runs enter and exit 
 
 ---
 
-### Modal Essentials
+### 模态框要点
 
 * Focus trap
 * Escape close
@@ -371,7 +371,7 @@ export function Example() {
 
 ---
 
-### SSR Safety
+### SSR 安全
 
 * Match initial states between server and client renders
 * Avoid implicit animation origins (always set `initial` explicitly)
@@ -379,7 +379,7 @@ export function Example() {
 
 ---
 
-### Debugging
+### 调试
 
 Check:
 
@@ -392,7 +392,7 @@ Check:
 
 ---
 
-### QA
+### 质量保证
 
 * No CLS
 * Keyboard works
@@ -405,7 +405,7 @@ Check:
 
 ---
 
-### Anti-Patterns
+### 反模式
 
 * Animating layout properties (`width`, `height`, `top`, `left`)
 * Infinite animations without purpose (always ask: what state does this communicate?)
@@ -417,19 +417,19 @@ Check:
 
 ---
 
-### Philosophy
+### 哲学
 
 Motion is interaction design.
 
 ---
 
-### Final Rule
+### 最终规则
 
 > If motion does not improve UX → remove it.
 
 ---
 
-## Examples
+## 示例
 
 ### Button Interaction
 

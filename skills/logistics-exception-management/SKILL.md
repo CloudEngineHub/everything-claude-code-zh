@@ -1,12 +1,10 @@
 ---
 name: logistics-exception-management
-description: 物流异常管理模式——异常检测、根本原因分析、自动升级和解决方案跟踪。
-  Codified expertise for handling freight exceptions, shipment delays,
-  damages, losses, and carrier disputes. Informed by logistics professionals
-  with 15+ years operational experience. Includes escalation protocols,
-  carrier-specific behaviors, claims procedures, and judgment frameworks.
-  Use when handling shipping exceptions, freight claims, delivery issues,
-  or carrier disputes.
+description: >
+  处理货运异常、发运延误、损坏、丢失和承运商争议的规范化专业知识。
+  基于 15 年以上物流行业专业人士的运营经验。包括升级协议、
+  承运商特定行为、索赔程序和判断框架。
+  处理发运异常、货运索赔、交付问题或承运商争议时使用。
 license: Apache-2.0
 version: 1.0.0
 homepage: https://github.com/affaan-m/everything-claude-code
@@ -17,13 +15,13 @@ metadata:
     emoji: ""
 ---
 
-# Logistics Exception Management
+# 物流异常管理
 
-## Role and Context
+## 角色和背景
 
 You are a senior freight exceptions analyst with 15+ years managing shipment exceptions across all modes — LTL, FTL, parcel, intermodal, ocean, and air. You sit at the intersection of shippers, carriers, consignees, insurance providers, and internal stakeholders. Your systems include TMS (transportation management), WMS (warehouse management), carrier portals, claims management platforms, and ERP order management. Your job is to resolve exceptions quickly while protecting financial interests, preserving carrier relationships, and maintaining customer satisfaction.
 
-## When to Use
+## 何时使用
 
 - Shipment is delayed, damaged, lost, or refused at delivery
 - Carrier dispute over liability, accessorial charges, or detention claims
@@ -31,7 +29,7 @@ You are a senior freight exceptions analyst with 15+ years managing shipment exc
 - Filing or managing freight claims with carriers or insurers
 - Building exception handling SOPs or escalation protocols
 
-## How It Works
+## 工作原理
 
 1. Classify the exception by type (delay, damage, loss, shortage, refusal) and severity
 2. Apply the appropriate resolution workflow based on classification and financial exposure
@@ -39,15 +37,15 @@ You are a senior freight exceptions analyst with 15+ years managing shipment exc
 4. Escalate through defined tiers based on time elapsed and dollar thresholds
 5. File claims within statute windows, negotiate settlements, and track recovery
 
-## Examples
+## 示例
 
 - **Damage claim**: 500-unit shipment arrives with 30% salvageable. Carrier claims force majeure. Walk through evidence collection, salvage assessment, liability determination, claim filing, and negotiation strategy.
 - **Detention dispute**: Carrier bills 8 hours detention at a DC. Receiver says driver arrived 2 hours early. Reconcile GPS data, appointment logs, and gate timestamps to resolve.
 - **Lost shipment**: High-value parcel shows "delivered" but consignee denies receipt. Initiate trace, coordinate with carrier investigation, file claim within the 9-month Carmack window.
 
-## Core Knowledge
+## 核心知识
 
-### Exception Taxonomy
+### 异常分类
 
 Every exception falls into a classification that determines the resolution workflow, documentation requirements, and urgency:
 
@@ -63,7 +61,7 @@ Every exception falls into a classification that determines the resolution workf
 - **Lost (partial):** Some items missing from shipment. Often happens at LTL terminals during cross-dock handling. Serial number tracking critical for high-value.
 - **Contaminated:** Product exposed to chemicals, odors, or incompatible freight (common in LTL). Regulatory implications for food and pharma.
 
-### Carrier Behaviour by Mode
+### 按运输方式的承运商行为
 
 Understanding how different carrier types operate changes your resolution strategy:
 
@@ -74,14 +72,14 @@ Understanding how different carrier types operate changes your resolution strate
 - **Ocean** (container shipping): Governed by Hague-Visby or COGSA (US). Carrier liability is per-package ($500 per package under COGSA unless declared). Container seal integrity is everything. Surveyor inspection at destination port.
 - **Air freight:** Governed by Montreal Convention. Strict 14-day notice for damage, 21 days for delay. Weight-based liability limits unless value declared. Fastest claims resolution of all modes.
 
-### Claims Process Fundamentals
+### 索赔流程基础
 
 - **Carmack Amendment (US domestic surface):** Carrier is liable for actual loss or damage with limited exceptions (act of God, act of public enemy, act of shipper, public authority, inherent vice). Shipper must prove: goods were in good condition when tendered, goods arrived damaged/short, and the amount of damages.
 - **Filing deadline:** 9 months from delivery date for US domestic (49 USC § 14706). Miss this and the claim is time-barred regardless of merit.
 - **Documentation required:** Original BOL (showing clean tender), delivery receipt (showing exception), commercial invoice (proving value), inspection report, photographs, repair estimates or replacement quotes, packaging specifications.
 - **Carrier response:** Carrier has 30 days to acknowledge, 120 days to pay or decline. If they decline, you have 2 years from the decline date to file suit.
 
-### Seasonal and Cyclical Patterns
+### 季节性和周期性模式
 
 - **Peak season (Oct-Jan):** Exception rates increase 30-50%. Carrier networks are strained. Transit times extend. Claims departments slow down. Build buffer into commitments.
 - **Produce season (Apr-Sep):** Temperature exceptions spike. Reefer availability tightens. Pre-cooling compliance becomes critical.
@@ -89,16 +87,16 @@ Understanding how different carrier types operate changes your resolution strate
 - **Month/quarter end:** Shippers rush volume. Carrier tender rejections spike. Double-brokering increases. Quality suffers across the board.
 - **Driver shortage cycles:** Worst in Q4 and after new regulation implementation (ELD mandate, FMCSA drug clearinghouse). Spot rates spike, service drops.
 
-### Fraud and Red Flags
+### 欺诈和危险信号
 
 - **Staged damages:** Damage patterns inconsistent with transit mode. Multiple claims from same consignee location.
 - **Address manipulation:** Redirect requests post-pickup to different addresses. Common in high-value electronics.
 - **Systematic shortages:** Consistent 1-2 unit shortages across multiple shipments — indicates pilferage at a terminal or during transit.
 - **Double-brokering indicators:** Carrier on BOL doesn't match truck that shows up. Driver can't name their dispatcher. Insurance certificate is from a different entity.
 
-## Decision Frameworks
+## 决策框架
 
-### Severity Classification
+### 严重性分类
 
 Assess every exception on three axes and take the highest severity:
 
@@ -120,7 +118,7 @@ Assess every exception on three axes and take the highest severity:
 - Delivery needed within 48 hours, no alternative sourced → elevate by 1
 - Same-day or next-day critical (production shutdown, event deadline) → automatic Level 4+
 
-### Eat-the-Cost vs Fight-the-Claim
+### 承担成本 vs 争取索赔
 
 This is the most common judgment call. Thresholds:
 
@@ -130,7 +128,7 @@ This is the most common judgment call. Thresholds:
 - **> $10,000:** VP-level awareness. Dedicated claims handler. Independent inspection if damage. Reject settlements below 90%. Legal review if denied.
 - **Any amount + pattern:** If this is the 3rd+ exception from the same carrier in 30 days, treat it as a carrier performance issue regardless of individual dollar amounts.
 
-### Priority Sequencing
+### 优先级排序
 
 When multiple exceptions are active simultaneously (common during peak season or weather events), prioritize:
 
@@ -140,7 +138,7 @@ When multiple exceptions are active simultaneously (common during peak season or
 4. Highest financial impact adjusted for customer tier
 5. Oldest unresolved exception (prevent aging beyond SLA)
 
-## Key Edge Cases
+## 关键边缘情况
 
 These are situations where the obvious approach is wrong. Brief summaries are included here so you can expand them into project-specific playbooks if needed.
 
@@ -160,7 +158,7 @@ These are situations where the obvious approach is wrong. Brief summaries are in
 
 8. **Peak surcharge dispute during weather event:** Carrier applies emergency surcharge retroactively. Contract may or may not allow this — check force majeure and fuel surcharge clauses specifically.
 
-## Communication Patterns
+## 沟通模式
 
 ### Tone Calibration
 
@@ -182,9 +180,9 @@ Brief templates appear below. Adapt them to your carrier, customer, and insuranc
 
 **Escalation to carrier management:** Subject: `ESCALATION: Unresolved Exception — {shipment_ref} — {days} Days`. Include timeline of previous communications, financial impact, and what resolution you expect.
 
-## Escalation Protocols
+## 升级协议
 
-### Automatic Escalation Triggers
+### 自动升级触发条件
 
 | Trigger | Action | Timeline |
 |---|---|---|
@@ -197,11 +195,11 @@ Brief templates appear below. Adapt them to your carrier, customer, and insuranc
 | No scan update on high-value (> $50K) | Initiate trace protocol and notify security | After 24 hours |
 | Claims denied > $10,000 | Legal review of denial basis | Within 48 hours |
 
-### Escalation Chain
+### 升级链
 
 Level 1 (Analyst) → Level 2 (Team Lead, 4 hours) → Level 3 (Manager, 24 hours) → Level 4 (Director, 48 hours) → Level 5 (VP, 72+ hours or any Level 5 severity)
 
-## Performance Indicators
+## 绩效指标
 
 Track these metrics weekly and trend monthly:
 
@@ -216,7 +214,7 @@ Track these metrics weekly and trend monthly:
 | Repeat exceptions (same carrier/lane) | < 10% | > 20% |
 | Aged exceptions (> 30 days open) | < 5% of total | > 15% |
 
-## Additional Resources
+## 附加资源
 
 - Pair this skill with your internal claims deadlines, mode-specific escalation matrix, and insurer notice requirements.
 - Keep carrier-specific proof-of-delivery rules and OS&D checklists near the team that will execute the playbooks.

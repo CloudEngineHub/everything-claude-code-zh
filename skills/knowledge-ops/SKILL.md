@@ -1,154 +1,154 @@
 ---
 name: knowledge-ops
-description: Knowledge base management, ingestion, sync, and retrieval across multiple storage layers (local files, MCP memory, vector stores, Git repos). Use when the user wants to save, organize, sync, deduplicate, or search across their knowledge systems.
+description: 知识库管理、摄取、同步和检索——跨多个存储层（本地文件、MCP 记忆、向量存储、Git 仓库）。当用户想要保存、组织、同步、去重或搜索其知识系统时使用。
 origin: ECC
 ---
 
-# Knowledge Operations
+# 知识运营
 
-Manage a multi-layered knowledge system for ingesting, organizing, syncing, and retrieving knowledge across multiple stores.
+管理多层知识系统，用于跨多个存储进行知识的摄取、组织、同步和检索。
 
-Prefer the live workspace model:
-- code work lives in the real cloned repos
-- active execution context lives in GitHub, Linear, and repo-local working-context files
-- broader human-facing notes can live in a non-repo context/archive folder
-- durable cross-machine memory belongs in the knowledge base, not in a shadow repo workspace
+优先使用活跃工作区模型：
+- 代码工作位于真实的克隆仓库中
+- 活跃执行上下文位于 GitHub、Linear 和仓库本地的工作上下文文件中
+- 更广泛面向人类的笔记可以存放在非仓库上下文/归档文件夹中
+- 跨机器的持久记忆属于知识库，而非影子仓库工作区
 
-## When to Activate
+## 何时激活
 
-- User wants to save information to their knowledge base
-- Ingesting documents, conversations, or data into structured storage
-- Syncing knowledge across systems (local files, MCP memory, Supabase, Git repos)
-- Deduplicating or organizing existing knowledge
-- User says "save this to KB", "sync knowledge", "what do I know about X", "ingest this", "update the knowledge base"
-- Any knowledge management task beyond simple memory recall
+- 用户想要将信息保存到知识库
+- 将文档、对话或数据摄取到结构化存储中
+- 跨系统同步知识（本地文件、MCP 记忆、Supabase、Git 仓库）
+- 去重或组织现有知识
+- 用户说"保存到知识库"、"同步知识"、"我了解什么关于 X"、"摄取这个"、"更新知识库"
+- 任何超出简单记忆召回的知识管理任务
 
-## Knowledge Architecture
+## 知识架构
 
-### Layer 1: Active execution truth
-- **Sources:** GitHub issues, PRs, discussions, release notes, Linear issues/projects/docs
-- **Use for:** the current operational state of the work
-- **Rule:** if something affects an active engineering plan, roadmap, rollout, or release, prefer putting it here first
+### 第 1 层：活跃执行事实
+- **来源：** GitHub 问题、PR、讨论、发布说明、Linear 问题/项目/文档
+- **用途：** 工作的当前运营状态
+- **规则：** 如果某事影响活跃的工程计划、路线图、发布或版本，优先放在这里
 
-### Layer 2: Claude Code Memory (Quick Access)
-- **Path:** `~/.claude/projects/*/memory/`
-- **Format:** Markdown files with frontmatter
-- **Types:** user preferences, feedback, project context, reference
-- **Use for:** quick-access context that persists across conversations
-- **Automatically loaded at session start**
+### 第 2 层：Claude Code 记忆（快速访问）
+- **路径：** `~/.claude/projects/*/memory/`
+- **格式：** 带有 frontmatter 的 Markdown 文件
+- **类型：** 用户偏好、反馈、项目上下文、参考资料
+- **用途：** 跨对话持久化的快速访问上下文
+- **会话开始时自动加载**
 
-### Layer 3: MCP Memory Server (Structured Knowledge Graph)
-- **Access:** MCP memory tools (create_entities, create_relations, add_observations, search_nodes)
-- **Use for:** Semantic search across all stored memories, relationship mapping
-- **Cross-session persistence with queryable graph structure**
+### 第 3 层：MCP 记忆服务器（结构化知识图谱）
+- **访问：** MCP 记忆工具（create_entities、create_relations、add_observations、search_nodes）
+- **用途：** 跨所有存储记忆的语义搜索、关系映射
+- **跨会话持久化，支持可查询的图结构**
 
-### Layer 4: Knowledge base repo / durable document store
-- **Use for:** curated durable notes, session exports, synthesized research, operator memory, long-form docs
-- **Rule:** this is the preferred durable store for cross-machine context when the content is not repo-owned code
+### 第 4 层：知识库仓库 / 持久文档存储
+- **用途：** 策划的持久笔记、会话导出、综合研究、操作员记忆、长篇文档
+- **规则：** 当内容不是仓库拥有的代码时，这是跨机器上下文的首选持久存储
 
-### Layer 5: External Data Store (Supabase, PostgreSQL, etc.)
-- **Use for:** Structured data, large document storage, full-text search
-- **Good for:** Documents too large for memory files, data needing SQL queries
+### 第 5 层：外部数据存储（Supabase、PostgreSQL 等）
+- **用途：** 结构化数据、大文档存储、全文搜索
+- **适用于：** 对记忆文件来说太大的文档、需要 SQL 查询的数据
 
-### Layer 6: Local context/archive folder
-- **Use for:** human-facing notes, archived gameplans, local media organization, temporary non-code docs
-- **Rule:** writable for information storage, but not a shadow code workspace
-- **Do not use for:** active code changes or repo truth that should live upstream
+### 第 6 层：本地上下文/归档文件夹
+- **用途：** 面向人类的笔记、归档的策略计划、本地媒体组织、临时代码外文档
+- **规则：** 可用于信息存储，但不是影子代码工作区
+- **不用于：** 活跃代码更改或应该在上游的仓库事实
 
-## Ingestion Workflow
+## 摄取工作流
 
-When new knowledge needs to be captured:
+当需要捕获新知识时：
 
-### 1. Classify
-What type of knowledge is it?
-- Business decision -> memory file (project type) + MCP memory
-- Active roadmap / release / implementation state -> GitHub + Linear first
-- Personal preference -> memory file (user/feedback type)
-- Reference info -> memory file (reference type) + MCP memory
-- Large document -> external data store + summary in memory
-- Conversation/session -> knowledge base repo + short summary in memory
+### 1. 分类
+这是什么类型的知识？
+- 业务决策 -> 记忆文件（项目类型）+ MCP 记忆
+- 活跃路线图 / 发布 / 实现状态 -> 先放 GitHub + Linear
+- 个人偏好 -> 记忆文件（用户/反馈类型）
+- 参考信息 -> 记忆文件（参考类型）+ MCP 记忆
+- 大型文档 -> 外部数据存储 + 记忆中的摘要
+- 对话/会话 -> 知识库仓库 + 记忆中的简短摘要
 
-### 2. Deduplicate
-Check if this knowledge already exists:
-- Search memory files for existing entries
-- Query MCP memory with relevant terms
-- Check whether the information already exists in GitHub or Linear before creating another local note
-- Do not create duplicates. Update existing entries instead.
+### 2. 去重
+检查此知识是否已存在：
+- 搜索记忆文件中的现有条目
+- 使用相关术语查询 MCP 记忆
+- 在创建另一个本地笔记之前，检查信息是否已存在于 GitHub 或 Linear 中
+- 不要创建重复项。更新现有条目。
 
-### 3. Store
-Write to appropriate layer(s):
-- Always update Claude Code memory for quick access
-- Use MCP memory for semantic searchability and relationship mapping
-- Update GitHub / Linear first when the information changes live project truth
-- Commit to the knowledge base repo for durable long-form additions
+### 3. 存储
+写入适当的层：
+- 始终更新 Claude Code 记忆以便快速访问
+- 使用 MCP 记忆进行语义可搜索性和关系映射
+- 当信息更改活跃项目事实时，先更新 GitHub / Linear
+- 提交到知识库仓库以进行持久长篇添加
 
-### 4. Index
-Update any relevant indexes or summary files.
+### 4. 索引
+更新任何相关索引或摘要文件。
 
-## Sync Operations
+## 同步操作
 
-### Conversation Sync
-Periodically sync conversation history into the knowledge base:
-- Sources: Claude session files, Codex sessions, other agent sessions
-- Destination: knowledge base repo
-- Generate a session index for quick browsing
-- Commit and push
+### 对话同步
+定期将对话历史同步到知识库：
+- 来源：Claude 会话文件、Codex 会话、其他智能体会话
+- 目标：知识库仓库
+- 生成会话索引以便快速浏览
+- 提交并推送
 
-### Workspace State Sync
-Mirror important workspace configuration and scripts to the knowledge base:
-- Generate directory maps
-- Redact sensitive config before committing
-- Track changes over time
-- Do not treat the knowledge base or archive folder as the live code workspace
+### 工作区状态同步
+将重要的工作区配置和脚本镜像到知识库：
+- 生成目录映射
+- 提交前清理敏感配置
+- 随时间跟踪变更
+- 不要将知识库或归档文件夹视为活跃代码工作区
 
-### GitHub / Linear Sync
-When the information affects active execution:
-- update the relevant GitHub issue, PR, discussion, release notes, or roadmap thread
-- attach supporting docs to Linear when the work needs durable planning context
-- only mirror a local note afterwards if it still adds value
+### GitHub / Linear 同步
+当信息影响活跃执行时：
+- 更新相关的 GitHub 问题、PR、讨论、发布说明或路线图线程
+- 当工作需要持久计划上下文时，将支持文档附加到 Linear
+- 仅当本地笔记仍有附加价值时才事后镜像
 
-### Cross-Source Knowledge Sync
-Pull knowledge from multiple sources into one place:
-- Claude/ChatGPT/Grok conversation exports
-- Browser bookmarks
-- GitHub activity events
-- Write status summary, commit and push
+### 跨来源知识同步
+从多个来源拉取知识到一个地方：
+- Claude/ChatGPT/Grok 对话导出
+- 浏览器书签
+- GitHub 活动事件
+- 编写状态摘要，提交并推送
 
-## Memory Patterns
+## 记忆模式
 
 ```
-# Short-term: current session context
-Use TodoWrite for in-session task tracking
+# 短期：当前会话上下文
+使用 TodoWrite 进行会话内任务跟踪
 
-# Medium-term: project memory files
-Write to ~/.claude/projects/*/memory/ for cross-session recall
+# 中期：项目记忆文件
+写入 ~/.claude/projects/*/memory/ 进行跨会话回忆
 
-# Long-term: GitHub / Linear / KB
-Put active execution truth in GitHub + Linear
-Put durable synthesized context in the knowledge base repo
+# 长期：GitHub / Linear / 知识库
+将活跃执行事实放在 GitHub + Linear
+将持久综合上下文放在知识库仓库
 
-# Semantic layer: MCP knowledge graph
-Use mcp__memory__create_entities for permanent structured data
-Use mcp__memory__create_relations for relationship mapping
-Use mcp__memory__add_observations for new facts about known entities
-Use mcp__memory__search_nodes to find existing knowledge
+# 语义层：MCP 知识图谱
+使用 mcp__memory__create_entities 存储持久结构化数据
+使用 mcp__memory__create_relations 进行关系映射
+使用 mcp__memory__add_observations 添加已知实体的新事实
+使用 mcp__memory__search_nodes 查找现有知识
 ```
 
-## Best Practices
+## 最佳实践
 
-- Keep memory files concise. Archive old data rather than letting files grow unbounded.
-- Use frontmatter (YAML) for metadata on all knowledge files.
-- Deduplicate before storing. Search first, then create or update.
-- Prefer one canonical home per fact set. Avoid parallel copies of the same plan across local notes, repo files, and tracker docs.
-- Redact sensitive information (API keys, passwords) before committing to Git.
-- Use consistent naming conventions for knowledge files (lowercase-kebab-case).
-- Tag entries with topics/categories for easier retrieval.
+- 保持记忆文件简洁。归档旧数据而非让文件无限增长。
+- 所有知识文件使用 frontmatter（YAML）存储元数据。
+- 存储前去重。先搜索，然后创建或更新。
+- 每组事实优先一个规范存储位置。避免在本地笔记、仓库文件和跟踪文档中创建同一计划的平行副本。
+- 提交到 Git 前清理敏感信息（API 密钥、密码）。
+- 知识文件使用一致的命名约定（小写-短横线分隔）。
+- 用主题/类别标记条目以便检索。
 
-## Quality Gate
+## 质量门控
 
-Before completing any knowledge operation:
-- no duplicate entries created
-- sensitive data redacted from any Git-tracked files
-- indexes and summaries updated
-- appropriate storage layer chosen for the data type
-- cross-references added where relevant
+在完成任何知识操作之前：
+- 未创建重复条目
+- 敏感数据已从任何 Git 跟踪文件中清理
+- 索引和摘要已更新
+- 为数据类型选择了适当的存储层
+- 在相关处添加了交叉引用

@@ -1,14 +1,14 @@
 ---
 name: quarkus-verification
-description: "Quarkus 项目的验证循环：构建、静态分析、带覆盖率的测试、安全扫描、原生编译和发布或 PR 前的差异审查。"
+description: "Quarkus 项目验证循环：构建、静态分析、带覆盖率的测试、安全扫描、原生编译和 PR 前差异审查。"
 origin: ECC
 ---
 
-# Quarkus Verification Loop
+# Quarkus 验证循环
 
 Run before PRs, after major changes, and pre-deploy.
 
-## When to Activate
+## 何时激活
 
 - Before opening a pull request for a Quarkus service
 - After major refactoring or dependency upgrades
@@ -17,7 +17,7 @@ Run before PRs, after major changes, and pre-deploy.
 - Validating test coverage meets thresholds (80%+)
 - Testing native image compatibility
 
-## Phase 1: Build
+## 阶段 1：构建
 
 ```bash
 # Maven
@@ -29,7 +29,7 @@ mvn clean verify -DskipTests
 
 If build fails, stop and fix compilation errors.
 
-## Phase 2: Static Analysis
+## 阶段 2：静态分析
 
 ### Checkstyle, PMD, SpotBugs (Maven)
 
@@ -53,7 +53,7 @@ mvn sonar:sonar \
 - Potential null pointer dereferences
 - Security issues flagged by SpotBugs
 
-## Phase 3: Tests + Coverage
+## 阶段 3：测试 + 覆盖率
 
 ```bash
 # Run all tests
@@ -69,9 +69,9 @@ mvn jacoco:check
 ./gradlew test jacocoTestReport jacocoTestCoverageVerification
 ```
 
-### Test Categories
+### 测试分类
 
-#### Unit Tests
+#### 单元测试
 Test service logic with mocked dependencies:
 
 ```java
@@ -95,7 +95,7 @@ class UserServiceTest {
 }
 ```
 
-#### Integration Tests
+#### 集成测试
 Test with real database (Testcontainers):
 
 ```java
@@ -122,7 +122,7 @@ class UserRepositoryIntegrationTest {
 }
 ```
 
-#### API Tests
+#### API 测试
 Test REST endpoints with REST Assured:
 
 ```java
@@ -156,16 +156,16 @@ class UserResourceTest {
 }
 ```
 
-### Coverage Report
+### 覆盖率报告
 
 Check `target/site/jacoco/index.html` for detailed coverage:
 - Overall line coverage (target: 80%+)
 - Branch coverage (target: 70%+)
 - Identify uncovered critical paths
 
-## Phase 4: Security Scanning
+## 阶段 4：安全扫描
 
-### Dependency Vulnerabilities (Maven)
+### 依赖漏洞（Maven）
 
 ```bash
 mvn org.owasp:dependency-check-maven:check
@@ -173,7 +173,7 @@ mvn org.owasp:dependency-check-maven:check
 
 Review `target/dependency-check-report.html` for CVEs.
 
-### Quarkus Security Audit
+### Quarkus 安全审计
 
 ```bash
 # Check vulnerable extensions
@@ -191,7 +191,7 @@ docker run -t owasp/zap2docker-stable zap-api-scan.py \
   -f openapi
 ```
 
-### Common Security Checks
+### 常见安全检查
 
 - [ ] All secrets in environment variables (not in code)
 - [ ] Input validation on all endpoints
@@ -202,7 +202,7 @@ docker run -t owasp/zap2docker-stable zap-api-scan.py \
 - [ ] SQL injection protection (parameterized queries)
 - [ ] Rate limiting on public endpoints
 
-## Phase 5: Native Compilation
+## 阶段 5：原生编译
 
 Test GraalVM native image compatibility:
 
@@ -221,7 +221,7 @@ curl http://localhost:8080/q/health/live
 curl http://localhost:8080/q/health/ready
 ```
 
-### Native Image Troubleshooting
+### 原生镜像 Troubleshooting
 
 Common issues:
 - **Reflection**: Add reflection config for dynamic classes
@@ -234,9 +234,9 @@ Example reflection config:
 public class ReflectionConfiguration {}
 ```
 
-## Phase 6: Performance Testing
+## 阶段 6：性能测试
 
-### Load Testing with K6
+### 使用 K6 进行负载测试
 
 ```javascript
 // load-test.js
@@ -265,7 +265,7 @@ Run:
 k6 run load-test.js
 ```
 
-### Metrics to Monitor
+### 监控指标
 
 - Response time (p50, p95, p99)
 - Throughput (requests/sec)
@@ -273,7 +273,7 @@ k6 run load-test.js
 - Memory usage
 - CPU usage
 
-## Phase 7: Health Checks
+## 阶段 7：健康检查
 
 ```bash
 # Liveness
@@ -302,7 +302,7 @@ Expected responses:
 }
 ```
 
-## Phase 8: Container Image Build
+## 阶段 8：容器镜像构建
 
 ```bash
 # Build container image
@@ -319,7 +319,7 @@ mvn package \
 docker run -p 8080:8080 myorg/my-quarkus-app:1.0.0
 ```
 
-### Container Security Scan
+### 容器安全扫描
 
 ```bash
 # Trivy
@@ -329,7 +329,7 @@ trivy image myorg/my-quarkus-app:1.0.0
 grype myorg/my-quarkus-app:1.0.0
 ```
 
-## Phase 9: Configuration Validation
+## 阶段 9：配置验证
 
 ```bash
 # Check all configuration properties
@@ -339,7 +339,7 @@ mvn quarkus:info
 curl http://localhost:8080/q/dev/io.quarkus.quarkus-vertx-http/config
 ```
 
-### Environment-Specific Checks
+### 环境特定检查
 
 - [ ] Database URLs configured per environment
 - [ ] Secrets externalized (Vault, env vars)
@@ -348,7 +348,7 @@ curl http://localhost:8080/q/dev/io.quarkus.quarkus-vertx-http/config
 - [ ] Rate limiting configured
 - [ ] Monitoring/tracing enabled
 
-## Phase 10: Documentation Review
+## 阶段 10：文档审查
 
 - [ ] OpenAPI/Swagger docs up to date (`/q/swagger-ui`)
 - [ ] README has setup instructions
@@ -361,41 +361,41 @@ Generate OpenAPI spec:
 curl http://localhost:8080/q/openapi -o openapi.json
 ```
 
-## Verification Checklist
+## 验证检查清单
 
-### Code Quality
+### 代码质量
 - [ ] Build passes without warnings
 - [ ] Static analysis clean (no high/medium issues)
 - [ ] Code follows team conventions
 - [ ] No commented-out code or TODOs in PR
 
-### Testing
+### 测试
 - [ ] All tests pass
 - [ ] Code coverage ≥ 80%
 - [ ] Integration tests with real database
 - [ ] Security tests pass
 - [ ] Performance within acceptable limits
 
-### Security
+### 安全
 - [ ] No dependency vulnerabilities
 - [ ] Authentication/authorization tested
 - [ ] Input validation complete
 - [ ] Secrets not in source code
 - [ ] Security headers configured
 
-### Deployment
+### 部署
 - [ ] Native compilation successful
 - [ ] Container image builds
 - [ ] Health checks respond correctly
 - [ ] Configuration valid for target environment
 
-### Native Image
+### 原生镜像
 - [ ] Native executable builds
 - [ ] Native tests pass
 - [ ] Startup time < 100ms
 - [ ] Memory footprint acceptable
 
-## Automated Verification Script
+## 自动化验证脚本
 
 ```bash
 #!/bin/bash
@@ -423,9 +423,9 @@ echo "  - Security: target/dependency-check-report.html"
 echo "  - Native: target/*-runner"
 ```
 
-## CI/CD Integration
+## CI/CD 集成
 
-### GitHub Actions Example
+### GitHub Actions 示例
 
 ```yaml
 name: Verification
@@ -465,7 +465,7 @@ jobs:
           files: target/site/jacoco/jacoco.xml
 ```
 
-## Best Practices
+## 最佳实践
 
 - Run verification loop before every PR
 - Automate in CI/CD pipeline

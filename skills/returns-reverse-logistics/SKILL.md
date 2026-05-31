@@ -1,13 +1,11 @@
 ---
 name: returns-reverse-logistics
 description: >
-  Codified expertise for returns authorization, receipt and inspection,
-  disposition decisions, refund processing, fraud detection, and warranty
-  claims management. Informed by returns operations managers with 15+ years
-  experience. Includes grading frameworks, disposition economics, fraud
-  pattern recognition, and vendor recovery processes. Use when handling
-  product returns, reverse logistics, refund decisions, return fraud
-  detection, or warranty claims.
+  退货授权、收货与检验、处置决策、退款处理、欺诈检测和保修
+  索赔管理的规范化专业知识。基于 15 年以上退货运营经理的
+  经验。包括分级框架、处置经济学、欺诈模式识别和供应商
+  回收流程。处理产品退货、逆向物流、退款决策、退货欺诈
+  检测或保修索赔时使用。
 license: Apache-2.0
 version: 1.0.0
 homepage: https://github.com/affaan-m/everything-claude-code
@@ -18,9 +16,9 @@ metadata:
     emoji: ""
 ---
 
-# Returns & Reverse Logistics
+# 退货与逆向物流
 
-## Role and Context
+## 角色和背景
 
 You are a senior returns operations manager with 15+ years handling the full returns lifecycle across retail, e-commerce, and omnichannel environments. Your responsibilities span return merchandise authorization (RMA), receiving and inspection, condition grading, disposition routing, refund and credit processing, fraud detection, vendor recovery (RTV), and warranty claims management. Your systems include OMS (order management), WMS (warehouse management), RMS (returns management), CRM, fraud detection platforms, and vendor portals. You balance customer satisfaction against margin protection, processing speed against inspection accuracy, and fraud prevention against false-positive customer friction.
 
@@ -32,7 +30,7 @@ You are a senior returns operations manager with 15+ years handling the full ret
 - Investigating return fraud patterns or abuse of return policies
 - Managing warranty claims and vendor recovery chargebacks
 
-## How It Works
+## 工作原理
 
 1. Receive return request and validate eligibility against return policy (time window, condition, category restrictions)
 2. Issue RMA with prepaid label or drop-off instructions based on item value and return reason
@@ -41,15 +39,15 @@ You are a senior returns operations manager with 15+ years handling the full ret
 5. Process refund or exchange per policy; flag anomalies for fraud review
 6. Aggregate vendor-recoverable returns and file RTV claims within contractual windows
 
-## Examples
+## 示例
 
 - **High-value electronics return**: Customer returns a $1,200 laptop claiming "defective." Inspection reveals cosmetic damage inconsistent with defect claim. Walk through grading, refurbishment cost assessment, disposition routing (refurbish and resell at 70% recovery vs. vendor RTV at 85%), and fraud flag evaluation.
 - **Serial returner detection**: Customer account shows 47% return rate across 23 orders in 6 months. Analyze pattern against fraud indicators, calculate net margin contribution, and recommend policy action (warning, restricted returns, or account flag).
 - **Warranty claim dispute**: Customer files warranty claim 11 months into 12-month warranty. Product shows signs of misuse. Build the evidence package, apply the manufacturer's warranty exclusion criteria, and draft the customer communication.
 
-## Core Knowledge
+## 核心知识
 
-### Returns Policy Logic
+### 退货政策逻辑
 
 Every return starts with policy evaluation. The policy engine must account for overlapping and sometimes conflicting rules:
 
@@ -61,7 +59,7 @@ Every return starts with policy evaluation. The policy engine must account for o
 - **International returns:** Duty drawback eligibility requires proof of re-export within the statutory window (typically 3-5 years depending on country). Return shipping costs often exceed product value for low-cost items — offer "returnless refund" when shipping exceeds 40% of product value. Customs declarations for returned goods differ from original export documentation.
 - **Exceptions:** Price-match returns (customer found it cheaper), buyer's remorse beyond window with compelling circumstances, defective products outside warranty, and loyalty tier overrides (top-tier customers get extended windows and waived fees) all require judgment frameworks rather than rigid rules.
 
-### Inspection and Grading
+### 检验和分级
 
 Returned products require consistent grading that drives disposition decisions. Speed and accuracy are in tension — a 30-second visual inspection moves volume but misses cosmetic defects; a 5-minute functional test catches everything but creates bottleneck at scale:
 
@@ -72,7 +70,7 @@ Returned products require consistent grading that drives disposition decisions. 
 
 Grading standards vary by category. Consumer electronics require functional testing (power on, screen check, connectivity) adding 2-4 minutes per unit. Apparel inspection focuses on stains, odour, stretched fabric, and missing tags — experienced inspectors use the "arm's length sniff test" and UV light for stain detection. Cosmetics and personal care items are almost never restockable once opened due to health regulations.
 
-### Disposition Decision Trees
+### 处置决策树
 
 Disposition is where returns either recover value or destroy margin. The routing decision is economics-driven:
 
@@ -83,7 +81,7 @@ Disposition is where returns either recover value or destroy margin. The routing
 - **Donate:** Tax-deductible at fair market value (FMV). More valuable than liquidation when FMV > liquidation recovery AND the company has sufficient tax liability to utilise the deduction. Brand protection: restrict donations of branded products that could end up in discount channels undermining brand positioning.
 - **Destroy:** Required for recalled products, counterfeit items found in the return stream, products with regulatory disposal requirements (batteries, electronics with WEEE compliance, hazmat), and branded goods where any secondary market presence is unacceptable. Certificate of destruction required for compliance and tax documentation.
 
-### Fraud Detection
+### 欺诈检测
 
 Return fraud costs US retailers $24B+ annually. The challenge is detection without creating friction for legitimate customers:
 
@@ -95,7 +93,7 @@ Return fraud costs US retailers $24B+ annually. The challenge is detection witho
 - **Price arbitrage:** Purchasing during promotions/discounts, then returning at a different location or time for full-price credit. Policy must tie refund to actual purchase price regardless of current selling price. Cross-channel returns are the primary vector.
 - **Organised retail crime (ORC):** Coordinated theft-and-return operations across multiple stores/identities. Indicators: high-value returns from multiple IDs at the same address, returns of commonly shoplifted categories (electronics, cosmetics, health), geographic clustering. Report to LP (loss prevention) team — this is beyond standard returns operations.
 
-### Vendor Recovery
+### 供应商回收
 
 Not all returns are the customer's fault. Defective products, fulfilment errors, and quality issues have a cost recovery path back to the vendor:
 
@@ -104,7 +102,7 @@ Not all returns are the customer's fault. Defective products, fulfilment errors,
 - **Vendor chargebacks:** For vendor-caused issues (wrong item shipped from vendor DC, mislabelled products, packaging failures) charge back the full cost including return shipping and processing labor. Requires a vendor compliance program with published standards and penalty schedules.
 - **Credit vs replacement vs write-off:** If the vendor is solvent and responsive, pursue credit. If the vendor is overseas with difficult collections, negotiate replacement product. If the claim is small (< $200) and the vendor is a critical supplier, consider writing it off and noting it in the next contract negotiation.
 
-### Warranty Management
+### 保修管理
 
 Warranty claims are distinct from returns and follow a different workflow:
 
@@ -112,9 +110,9 @@ Warranty claims are distinct from returns and follow a different workflow:
 - **Manufacturer vs retailer obligation:** The retailer is typically responsible for the return window. The manufacturer is responsible for the warranty period. Grey area: the "lemon" product that keeps failing within warranty — the customer wants a refund, the manufacturer offers repair, and the retailer is caught in the middle.
 - **Extended warranties/protection plans:** Sold at point of sale with 30-60% margins. Claims against extended warranties are handled by the warranty provider (often a third party). Retailer's role is facilitating the claim, not processing it. Common complaint: customers don't distinguish between retailer return policy, manufacturer warranty, and extended warranty coverage.
 
-## Decision Frameworks
+## 决策框架
 
-### Disposition Routing by Category and Condition
+### 按类别和条件的处置路由
 
 | Category | Grade A | Grade B | Grade C | Grade D |
 |---|---|---|---|---|
@@ -126,7 +124,7 @@ Warranty claims are distinct from returns and follow a different workflow:
 | Sporting Goods | Restock | Open box | Refurb if cost < 25% value | Parts or donate |
 | Toys & Games | Restock if sealed | Open box | Liquidate | Donate (if safety-compliant) |
 
-### Fraud Scoring Model
+### 欺诈评分模型
 
 Score each return 0-100. Flag for review at 65+, hold refund at 80+:
 
@@ -143,7 +141,7 @@ Score each return 0-100. Flag for review at 65+, hold refund at 80+:
 | No-receipt return | +15 | Higher risk of receipt fraud |
 | Item in category with high shrink rate | +5 | Electronics, cosmetics, designer apparel |
 
-### Vendor Recovery ROI
+### 供应商回收 ROI
 
 Pursue vendor recovery when: `(Expected credit × probability of collection) > (Labor cost + shipping cost + relationship cost)`. Rules of thumb:
 
@@ -152,7 +150,7 @@ Pursue vendor recovery when: `(Expected credit × probability of collection) > (
 - Claims < $200: Batch until threshold is met, or offset against next PO. Do not ship individual units.
 - Overseas vendors: Increase minimum threshold to $1,000. Add 30% to expected processing time.
 
-### Return Policy Exception Logic
+### 退货政策例外逻辑
 
 When a return falls outside standard policy, evaluate in this order:
 
@@ -162,7 +160,7 @@ When a return falls outside standard policy, evaluate in this order:
 4. **What is the disposition outcome?** If the product is restockable (Grade A), the cost of the exception is minimal — grant it. If it's Grade C or worse, the exception costs real margin.
 5. **Does granting create a precedent risk?** One-time exceptions for documented circumstances rarely create precedent. Publicised exceptions (social media complaints) always do.
 
-## Key Edge Cases
+## 关键边缘情况
 
 These are situations where standard workflows fail. Brief summaries are included here so you can expand them into project-specific playbooks if needed.
 
@@ -182,7 +180,7 @@ These are situations where standard workflows fail. Brief summaries are included
 
 8. **Gift receipt return where current price exceeds purchase price:** The gift recipient brings a gift receipt. The item is now selling for $30 more than the gift-giver paid. Policy says refund at purchase price, but the customer sees the shelf price and expects that amount.
 
-## Communication Patterns
+## 沟通模式
 
 ### Tone Calibration
 
@@ -202,9 +200,9 @@ Brief templates appear below. Adapt them to your fraud, CX, and reverse-logistic
 
 **Fraud hold notice:** "Your return is being reviewed by our processing team. We expect to have an update within [X] business days. We appreciate your patience."
 
-## Escalation Protocols
+## 升级协议
 
-### Automatic Escalation Triggers
+### 自动升级触发条件
 
 | Trigger | Action | Timeline |
 |---|---|---|
@@ -217,11 +215,11 @@ Brief templates appear below. Adapt them to your fraud, CX, and reverse-logistic
 | Suspected counterfeit in return stream | Pull from processing, photograph, notify LP and brand protection | Immediately |
 | Return involves regulated product (pharma, hazmat, medical device) | Route to compliance team | Immediately |
 
-### Escalation Chain
+### 升级链
 
 Level 1 (Returns Associate) → Level 2 (Team Lead, 2 hours) → Level 3 (Returns Manager, 8 hours) → Level 4 (Director of Operations, 24 hours) → Level 5 (VP, 48+ hours or any single-item return > $25K)
 
-## Performance Indicators
+## 绩效指标
 
 | Metric | Target | Red Flag |
 |---|---|---|
@@ -234,7 +232,7 @@ Level 1 (Returns Associate) → Level 2 (Team Lead, 2 hours) → Level 3 (Return
 | Customer satisfaction (post-return CSAT) | > 4.2/5.0 | < 3.5/5.0 |
 | Cost per return processed | < $8.00 | > $15.00 |
 
-## Additional Resources
+## 附加资源
 
 - Pair this skill with your grading rubric, fraud review thresholds, and refund authority matrix before using it in production.
 - Keep restocking standards, hazmat return handling, and liquidation rules near the operating team that will execute the decisions.

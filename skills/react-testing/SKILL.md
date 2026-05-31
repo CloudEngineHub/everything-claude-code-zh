@@ -4,11 +4,11 @@ description: React 组件测试，使用 React Testing Library、Vitest/Jest、M
 origin: ECC
 ---
 
-# React Testing
+# React 测试
 
 Comprehensive React testing patterns for behavior-focused component tests, custom hook tests, accessibility assertions, and network-level mocking.
 
-## When to Activate
+## 何时激活
 
 - Writing tests for React components, custom hooks, or pages
 - Adding test coverage to legacy untested components
@@ -18,7 +18,7 @@ Comprehensive React testing patterns for behavior-focused component tests, custo
 - Asserting accessibility violations
 - Deciding which tests belong in RTL vs Playwright Component Testing vs full E2E
 
-## Core Principle
+## 核心原则
 
 Test what the user sees and does, not implementation details.
 
@@ -34,7 +34,7 @@ A test should NOT:
 - Mock React itself or framework hooks
 - Assert on the number of renders or DOM structure beyond what affects users
 
-## Library Choice
+## 库选择
 
 | Runner | When | Note |
 |---|---|---|
@@ -45,7 +45,7 @@ A test should NOT:
 
 Pick one. Do not run RTL + Vitest AND Playwright CT in the same repo unless you have a clear lane separation.
 
-## Query Priority
+## 查询优先级
 
 React Testing Library exposes queries in three tiers — use top-down:
 
@@ -70,7 +70,7 @@ Variants:
 - `queryBy*` — returns `null` (use for "assert absence")
 - `findBy*` — async, returns a Promise (use for elements that appear after async work)
 
-## User Interaction with `userEvent`
+## 使用 `userEvent` 进行用户交互
 
 ```tsx
 import userEvent from "@testing-library/user-event";
@@ -91,7 +91,7 @@ test("submits the form", async () => {
 - Call `userEvent.setup()` once per test, reuse the returned `user`
 - `userEvent` simulates a real browser sequence; `fireEvent` dispatches a single synthetic event — prefer `userEvent`
 
-## Async Patterns
+## 异步模式
 
 ```tsx
 // Element that appears after async work
@@ -106,11 +106,11 @@ await waitForElementToBeRemoved(() => screen.queryByText("Loading"));
 
 Never `setTimeout` + assertion — flaky. Use the matchers above.
 
-## Network Mocking with MSW
+## 使用 MSW 进行网络模拟
 
 Mock Service Worker mocks at the network layer. The component, hooks, and fetch library all behave exactly as in production.
 
-### Setup
+### 设置
 
 ```ts
 // test/setup.ts
@@ -136,7 +136,7 @@ afterAll(() => server.close());
 
 Configure `onUnhandledRequest: "error"` so any unmocked request fails the test loudly — silent passes are worse than red.
 
-### Per-test override
+### 按测试覆盖
 
 ```tsx
 test("renders error on 500", async () => {
@@ -148,7 +148,7 @@ test("renders error on 500", async () => {
 });
 ```
 
-## Provider Wrapping
+## Provider 包装
 
 Wrap providers once in a `test-utils.tsx`:
 
@@ -180,7 +180,7 @@ export * from "@testing-library/react";
 
 Then `import { renderWithProviders, screen } from "test-utils"` in every test file.
 
-## Custom Hook Testing
+## 自定义 Hook 测试
 
 ```tsx
 import { renderHook, act } from "@testing-library/react";
@@ -223,7 +223,7 @@ test("useUser fetches user data", async () => {
 - Test through the hook's public API only
 - For hooks that use context, pass a `wrapper`
 
-## Accessibility Assertions
+## 可访问性 Assertions
 
 ```tsx
 import { axe, toHaveNoViolations } from "jest-axe"; // or vitest-axe
@@ -245,7 +245,7 @@ Run axe in component tests for every interactive component. Catches:
 
 Cross-link: [skills/accessibility/SKILL.md](../accessibility/SKILL.md) for the broader a11y testing playbook.
 
-## When NOT to Use Snapshot Tests
+## 何时不使用快照测试
 
 Snapshots of rendered output:
 
@@ -260,7 +260,7 @@ Acceptable snapshot uses:
 
 For visual regression on components, use Playwright/Cypress screenshots or Percy/Chromatic — actual visual diffs, not DOM strings.
 
-## When to Reach for Playwright / Cypress
+## 何时使用 Playwright / Cypress
 
 JSDOM (used by Vitest/Jest) cannot:
 
@@ -278,7 +278,7 @@ Decision boundary:
 - A component whose layout matters or that uses browser APIs not in JSDOM -> Playwright CT
 - A full user flow across multiple pages -> Playwright/Cypress E2E
 
-## Coverage Targets
+## 覆盖率目标
 
 | Layer | Target |
 |---|---|
@@ -306,7 +306,7 @@ test: {
 }
 ```
 
-## Anti-Patterns
+## 反模式
 
 - `container.querySelector("...")` — bypasses accessibility queries, lets tests pass when real users would fail
 - Asserting on number of renders — implementation detail
@@ -316,7 +316,7 @@ test: {
 - Sharing mutable state across tests — flakes when test order changes
 - Tests that pass with `it.skip()` removed — your test does not actually assert what you think
 
-## TDD Workflow
+## TDD 工作流
 
 ```
 RED     -> Write failing test for the next requirement
@@ -334,7 +334,7 @@ For new components:
 5. Add the next test case
 6. Refactor when the third similar test reveals a pattern
 
-## Test Commands
+## 测试命令
 
 ```bash
 # Vitest
@@ -352,16 +352,16 @@ jest path/to/file.test.tsx
 CI=true vitest run --coverage
 ```
 
-## Related
+## 相关内容
 
 - Rules: [rules/react/testing.md](../../rules/react/testing.md)
 - Skills: [react-patterns](../react-patterns/SKILL.md), [accessibility](../accessibility/SKILL.md), [e2e-testing](../e2e-testing/SKILL.md), [tdd-workflow](../tdd-workflow/SKILL.md)
 - Agents: `react-reviewer` (reviews test quality during code review), `tdd-guide` (enforces TDD process)
 - Commands: `/react-test`, `/react-review`
 
-## Examples
+## 示例
 
-### Form submission with MSW and userEvent
+### 使用 MSW 和 userEvent 的表单提交
 
 ```tsx
 test("submits user form and shows success", async () => {
@@ -382,7 +382,7 @@ test("submits user form and shows success", async () => {
 });
 ```
 
-### Testing an error boundary
+### 测试错误边界
 
 ```tsx
 function Broken() {
@@ -407,7 +407,7 @@ test("error boundary renders fallback", () => {
 });
 ```
 
-### Testing a Suspense boundary
+### 测试 Suspense 边界
 
 ```tsx
 test("shows loading then content", async () => {

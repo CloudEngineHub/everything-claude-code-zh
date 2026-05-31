@@ -1,14 +1,14 @@
 ---
 name: lead-intelligence
-description: 线索情报工作流——线索评分、客户画像、CRM 集成和销售管道分析。
+description: AI 原生线索情报和外联流水线。用智能体驱动的信号评分、互惠排名、热路径发现、来源语音建模和跨渠道外联（电子邮件、LinkedIn 和 X）替代 Apollo、Clay 和 ZoomInfo。当用户想要查找、评估和触达高价值联系人时使用。
 origin: ECC
 ---
 
-# Lead Intelligence
+# 线索情报
 
 Agent-powered lead intelligence pipeline that finds, scores, and reaches high-value contacts through social graph analysis and warm path discovery.
 
-## When to Activate
+## 何时激活
 
 - User wants to find leads or prospects in a specific industry
 - Building an outreach list for partnerships, sales, or fundraising
@@ -17,7 +17,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 - Needs to score or rank a list of contacts by relevance
 - Wants to map mutual connections to find warm introduction paths
 
-## Tool Requirements
+## 工具要求
 
 ### Required
 - **Exa MCP** — Deep web search for people, companies, and signals (`web_search_exa`)
@@ -30,7 +30,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 - **Apple Mail / Mail.app** — Draft cold or warm email without sending automatically
 - **Browser control** — For LinkedIn and X when API coverage is missing or constrained
 
-## Pipeline Overview
+## 流水线概览
 
 ```
 ┌─────────────┐     ┌──────────────┐     ┌─────────────────┐     ┌──────────────┐     ┌─────────────────┐
@@ -39,7 +39,7 @@ Agent-powered lead intelligence pipeline that finds, scores, and reaches high-va
 └─────────────┘     └──────────────┘     └─────────────────┘     └──────────────┘     └─────────────────┘
 ```
 
-## Voice Before Outreach
+## 外联前先定调
 
 Do not draft outbound from generic sales copy.
 
@@ -47,7 +47,7 @@ Run `brand-voice` first whenever the user's voice matters. Reuse its `VOICE PROF
 
 If live X access is available, pull recent original posts before drafting. If not, use supplied examples or the best repo/site material available.
 
-## Stage 1: Signal Scoring
+## 阶段 1：信号评分
 
 Search for high-signal people in target verticals. Assign a weight to each based on:
 
@@ -85,7 +85,7 @@ x_search = search_recent_tweets(
 # Extract and score unique authors
 ```
 
-## Stage 2: Mutual Ranking
+## 阶段 2：互惠排名
 
 For each scored target, analyze the user's social graph to find the warmest path.
 
@@ -143,7 +143,7 @@ MUTUAL RANKING REPORT
     ...
 ```
 
-## Stage 3: Warm Path Discovery
+## 阶段 3：热路径发现
 
 For each target, find the shortest introduction chain:
 
@@ -160,7 +160,7 @@ You ──[met at]──> Event ──[also attended]──> Target Person
 4. **Event overlap** — Both attended same conference/program
 5. **Content engagement** — Target engaged with mutual's content or vice versa
 
-## Stage 4: Enrichment
+## 阶段 4：信息丰富
 
 For each qualified lead, pull:
 
@@ -176,7 +176,7 @@ For each qualified lead, pull:
 - GitHub: open source contributions (for developer-centric leads)
 - LinkedIn (via browser-use): full profile, experience, education
 
-## Stage 5: Outreach Draft
+## 阶段 5：外联草稿
 
 Generate personalized outreach for each lead. The draft should match the source-derived voice profile and the target channel.
 
@@ -264,7 +264,7 @@ If desktop automation is available:
 
 Do not send messages automatically without explicit user approval.
 
-### Anti-Patterns
+### 反模式
 
 - generic templates with no personalization
 - long paragraphs explaining your whole company
@@ -274,7 +274,7 @@ Do not send messages automatically without explicit user approval.
 - identical copy reused for email, LinkedIn, and X
 - platform-shaped slop instead of the author's actual voice
 
-## Configuration
+## 配置
 
 Users should set these environment variables:
 
@@ -292,7 +292,7 @@ export LINKEDIN_COOKIE="..." # For browser-use LinkedIn access
 export APOLLO_API_KEY="..."  # For Apollo enrichment
 ```
 
-## Agents
+## 智能体
 
 This skill includes specialized agents in the `agents/` subdirectory:
 
@@ -301,7 +301,7 @@ This skill includes specialized agents in the `agents/` subdirectory:
 - **enrichment-agent** — Pulls detailed profile and company data
 - **outreach-drafter** — Generates personalized messages
 
-## Example Usage
+## 使用示例
 
 ```
 User: find me the top 20 people in prediction markets I should reach out to
@@ -315,7 +315,7 @@ Agent workflow:
 Output: Ranked list with warm paths, voice profile summary, and channel-specific outreach drafts or drafts-in-app
 ```
 
-## Related Skills
+## 相关内容 Skills
 
 - `brand-voice` for canonical voice capture
 - `connections-optimizer` for review-first network pruning and expansion before outreach

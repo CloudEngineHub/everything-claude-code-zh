@@ -4,11 +4,11 @@ description: Redis 数据结构模式、缓存策略、分布式锁、速率限�
 origin: ECC
 ---
 
-# Redis Patterns
+# Redis 模式
 
 Quick reference for Redis best practices across common backend use cases.
 
-## How It Works
+## 工作原理
 
 Redis is an in-memory data structure store that supports strings, hashes, lists, sets, sorted sets, streams, and more. Individual Redis commands are atomic on a single instance; multi-step workflows require Lua scripts, MULTI/EXEC transactions, or explicit synchronization to stay atomic. Data is optionally persisted via RDB snapshots or AOF logs. Clients communicate over TCP using the RESP protocol; connection pools are essential to avoid per-request handshake overhead.
 
@@ -21,7 +21,7 @@ Redis is an in-memory data structure store that supports strings, hashes, lists,
 - Using Pub/Sub or Redis Streams for messaging
 - Configuring Redis in production (pooling, eviction, clustering)
 
-## Data Structure Cheat Sheet
+## 数据结构速查表
 
 | Use Case | Structure | Example Key |
 |----------|-----------|-------------|
@@ -36,7 +36,7 @@ Redis is an in-memory data structure store that supports strings, hashes, lists,
 
 ## 核心模式
 
-### Cache-Aside (Lazy Loading)
+### 缓存旁路（懒加载）
 
 ```python
 import redis
@@ -56,7 +56,7 @@ def get_product(product_id: int):
     return product
 ```
 
-### Write-Through Cache
+### 写透缓存
 
 ```python
 def update_product(product_id: int, data: dict):
@@ -68,7 +68,7 @@ def update_product(product_id: int, data: dict):
     r.setex(cache_key, 3600, json.dumps(data))
 ```
 
-### Cache Invalidation
+### 缓存失效
 
 ```python
 # Tag-based invalidation — group related keys under a set
@@ -89,7 +89,7 @@ def invalidate_category(category_id: int):
     r.delete(tag)
 ```
 
-### Session Storage
+### 会话存储
 
 ```python
 import time
@@ -115,9 +115,9 @@ def delete_session(session_id: str):
     r.delete(f"session:{session_id}")
 ```
 
-## Rate Limiting
+## 速率限制
 
-### Fixed Window (Simple)
+### 固定窗口（简单）
 
 ```python
 def is_rate_limited(user_id: int, limit: int = 100, window: int = 60) -> bool:
@@ -129,7 +129,7 @@ def is_rate_limited(user_id: int, limit: int = 100, window: int = 60) -> bool:
     return count > limit
 ```
 
-### Sliding Window (Lua — Atomic)
+### 滑动窗口（Lua — 原子操作）
 
 ```lua
 -- sliding_window.lua
@@ -162,9 +162,9 @@ def allow_request(user_id: int) -> bool:
     return bool(sliding_window(keys=[key], args=[now, 60000, 100]))
 ```
 
-## Distributed Locks
+## 分布式锁
 
-### Distributed Lock (Single Node — SET NX PX)
+### 分布式锁（单节点 — SET NX PX）
 
 ```python
 import uuid
@@ -197,9 +197,9 @@ if token:
 
 > For multi-node setups use the `redlock-py` library which implements the full Redlock algorithm.
 
-## Pub/Sub & Streams
+## 发布/订阅与流
 
-### Pub/Sub (Fire-and-Forget)
+### 发布/订阅（即发即忘）
 
 ```python
 # Publisher
@@ -215,7 +215,7 @@ def subscribe_events(channel: str):
             handle(json.loads(message['data']))
 ```
 
-### Redis Streams (Durable Queue)
+### Redis 流（持久队列）
 
 ```python
 # Producer
@@ -239,9 +239,9 @@ def consume(stream: str, group: str, consumer: str):
 
 > Prefer **Streams** over Pub/Sub when you need delivery guarantees, consumer groups, or replay.
 
-## Key Design
+## 键设计
 
-### Naming Conventions
+### 命名约定
 
 ```
 # Pattern: resource:id:field
@@ -257,7 +257,7 @@ myapp:ratelimit:user:123
 stats:pageviews:2024-01-01
 ```
 
-### TTL Strategy
+### TTL 策略
 
 | Data Type | Suggested TTL |
 |-----------|--------------|
@@ -270,9 +270,9 @@ stats:pageviews:2024-01-01
 
 Always set a TTL. Keys without TTL accumulate indefinitely and cause memory pressure.
 
-## Connection Management
+## 连接管理
 
-### Connection Pooling
+### 连接池
 
 ```python
 from redis import ConnectionPool, Redis
@@ -290,7 +290,7 @@ pool = ConnectionPool(
 r = Redis(connection_pool=pool)
 ```
 
-### Cluster Mode
+### 集群模式
 
 ```python
 from redis.cluster import RedisCluster
@@ -302,7 +302,7 @@ r = RedisCluster(
 )
 ```
 
-### Sentinel (High Availability)
+### 哨兵（高可用）
 
 ```python
 from redis.sentinel import Sentinel
@@ -315,7 +315,7 @@ master = sentinel.master_for('mymaster', decode_responses=True)
 replica = sentinel.slave_for('mymaster', decode_responses=True)
 ```
 
-## Eviction Policies
+## 驱逐策略
 
 | Policy | Behavior | Best For |
 |--------|----------|----------|
@@ -327,7 +327,7 @@ replica = sentinel.slave_for('mymaster', decode_responses=True)
 
 Set via `redis.conf`: `maxmemory-policy allkeys-lru`
 
-## Anti-Patterns
+## 反模式
 
 | Anti-Pattern | Problem | Fix |
 |---|---|---|
@@ -339,7 +339,7 @@ Set via `redis.conf`: `maxmemory-policy allkeys-lru`
 | Not handling cache miss stampede | Thundering herd on cold start | Use locks or probabilistic early expiry |
 | `FLUSHALL` without thought | Wipes entire instance | Scope deletes by key pattern |
 
-### Cache Miss Stampede Prevention
+### 缓存未命中雪崩预防
 
 ```python
 import threading
@@ -367,7 +367,7 @@ def get_with_lock(key: str, fetch_fn, ttl: int = 300):
 
 > Note: for multi-process deployments, replace the in-process lock with `acquire_lock`/`release_lock` from the Distributed Locks section above.
 
-## Examples
+## 示例
 
 **Add caching to a Django/Flask API endpoint:**
 Use cache-aside with `setex` and a 5-minute TTL on the response. Key on the request parameters.
@@ -381,7 +381,7 @@ Use `acquire_lock` with a TTL that exceeds the expected job duration. Always rel
 **Fan-out notifications to multiple subscribers:**
 Use Pub/Sub for fire-and-forget. Switch to Streams if you need guaranteed delivery or replay for late consumers.
 
-## Quick Reference
+## 快速参考
 
 | Pattern | When to Use |
 |---------|-------------|
@@ -394,7 +394,7 @@ Use Pub/Sub for fire-and-forget. Switch to Streams if you need guaranteed delive
 | Sorted Set leaderboard | Ranked scoring, pagination |
 | HyperLogLog | Approximate unique count at low memory |
 
-## Related
+## 相关内容
 
 - Skill: `postgres-patterns` — relational data patterns
 - Skill: `backend-patterns` — API and service layer patterns

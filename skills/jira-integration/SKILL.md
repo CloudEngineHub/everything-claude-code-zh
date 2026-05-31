@@ -1,33 +1,33 @@
 ---
 name: jira-integration
-description: Use this skill when retrieving Jira tickets, analyzing requirements, updating ticket status, adding comments, or transitioning issues. Provides Jira API patterns via MCP or direct REST calls.
+description: 在检索 Jira 工单、分析需求、更新工单状态、添加评论或转换工单时使用此技能。通过 MCP 或直接 REST 调用提供 Jira API 模式。
 origin: ECC
 ---
 
-# Jira Integration Skill
+# Jira 集成技能
 
-Retrieve, analyze, and update Jira tickets directly from your AI coding workflow. Supports both **MCP-based** (recommended) and **direct REST API** approaches.
+直接从 AI 编码工作流中检索、分析和更新 Jira 工单。支持 **基于 MCP**（推荐）和 **直接 REST API** 两种方式。
 
-## When to Activate
+## 何时激活
 
-- Fetching a Jira ticket to understand requirements
-- Extracting testable acceptance criteria from a ticket
-- Adding progress comments to a Jira issue
-- Transitioning a ticket status (To Do → In Progress → Done)
-- Linking merge requests or branches to a Jira issue
-- Searching for issues by JQL query
+- 获取 Jira 工单以了解需求
+- 从工单中提取可测试的验收标准
+- 向 Jira 问题添加进度评论
+- 转换工单状态（待办 → 进行中 → 已完成）
+- 将合并请求或分支链接到 Jira 问题
+- 通过 JQL 查询搜索问题
 
-## Prerequisites
+## 先决条件
 
-### Option A: MCP Server (Recommended)
+### 方案 A：MCP 服务器（推荐）
 
-Install the `mcp-atlassian` MCP server. This exposes Jira tools directly to your AI agent.
+安装 `mcp-atlassian` MCP 服务器。这会直接向 AI 智能体暴露 Jira 工具。
 
-**Requirements:**
+**要求：**
 - Python 3.10+
-- `uvx` (from `uv`), installed via your package manager or the official `uv` installation documentation
+- `uvx`（来自 `uv`），通过包管理器或官方 `uv` 安装文档安装
 
-**Add to your MCP config** (e.g., `~/.claude.json` → `mcpServers`):
+**添加到 MCP 配置**（例如 `~/.claude.json` → `mcpServers`）：
 
 ```json
 {
@@ -44,48 +44,48 @@ Install the `mcp-atlassian` MCP server. This exposes Jira tools directly to your
 }
 ```
 
-> **Security:** Never hardcode secrets. Prefer setting `JIRA_URL`, `JIRA_EMAIL`, and `JIRA_API_TOKEN` in your system environment (or a secrets manager). Only use the MCP `env` block for local, uncommitted config files.
+> **安全：** 绝不硬编码密钥。优先在系统环境（或密钥管理器）中设置 `JIRA_URL`、`JIRA_EMAIL` 和 `JIRA_API_TOKEN`。仅在本地未提交的配置文件中使用 MCP `env` 块。
 
-**To get a Jira API token:**
-1. Go to <https://id.atlassian.com/manage-profile/security/api-tokens>
-2. Click **Create API token**
-3. Copy the token — store it in your environment, never in source code
+**获取 Jira API 令牌：**
+1. 前往 <https://id.atlassian.com/manage-profile/security/api-tokens>
+2. 点击 **创建 API 令牌**
+3. 复制令牌 — 存储在环境中，绝不放入源代码
 
-### Option B: Direct REST API
+### 方案 B：直接 REST API
 
-If MCP is not available, use the Jira REST API v3 directly via `curl` or a helper script.
+如果 MCP 不可用，通过 `curl` 或辅助脚本直接使用 Jira REST API v3。
 
-**Required environment variables:**
+**所需环境变量：**
 
-| Variable | Description |
-|----------|-------------|
-| `JIRA_URL` | Your Jira instance URL (e.g., `https://yourorg.atlassian.net`) |
-| `JIRA_EMAIL` | Your Atlassian account email |
-| `JIRA_API_TOKEN` | API token from id.atlassian.com |
+| 变量 | 说明 |
+|------|------|
+| `JIRA_URL` | Jira 实例 URL（例如 `https://yourorg.atlassian.net`） |
+| `JIRA_EMAIL` | Atlassian 账户邮箱 |
+| `JIRA_API_TOKEN` | 来自 id.atlassian.com 的 API 令牌 |
 
-Store these in your shell environment, secrets manager, or an untracked local env file. Do not commit them to the repo.
+将这些存储在 shell 环境、密钥管理器或未跟踪的本地环境文件中。不要将它们提交到仓库。
 
-## MCP Tools Reference
+## MCP 工具参考
 
-When the `mcp-atlassian` MCP server is configured, these tools are available:
+配置 `mcp-atlassian` MCP 服务器后，可以使用以下工具：
 
-| Tool | Purpose | Example |
-|------|---------|---------|
-| `jira_search` | JQL queries | `project = PROJ AND status = "In Progress"` |
-| `jira_get_issue` | Fetch full issue details by key | `PROJ-1234` |
-| `jira_create_issue` | Create issues (Task, Bug, Story, Epic) | New bug report |
-| `jira_update_issue` | Update fields (summary, description, assignee) | Change assignee |
-| `jira_transition_issue` | Change status | Move to "In Review" |
-| `jira_add_comment` | Add comments | Progress update |
-| `jira_get_sprint_issues` | List issues in a sprint | Active sprint review |
-| `jira_create_issue_link` | Link issues (Blocks, Relates to) | Dependency tracking |
-| `jira_get_issue_development_info` | See linked PRs, branches, commits | Dev context |
+| 工具 | 用途 | 示例 |
+|------|------|------|
+| `jira_search` | JQL 查询 | `project = PROJ AND status = "In Progress"` |
+| `jira_get_issue` | 按键获取完整问题详情 | `PROJ-1234` |
+| `jira_create_issue` | 创建问题（任务、缺陷、故事、史诗） | 新缺陷报告 |
+| `jira_update_issue` | 更新字段（摘要、描述、指派人） | 更改指派人 |
+| `jira_transition_issue` | 更改状态 | 移至"审查中" |
+| `jira_add_comment` | 添加评论 | 进度更新 |
+| `jira_get_sprint_issues` | 列出 Sprint 中的问题 | 活跃 Sprint 审查 |
+| `jira_create_issue_link` | 链接问题（阻塞、相关） | 依赖跟踪 |
+| `jira_get_issue_development_info` | 查看关联的 PR、分支、提交 | 开发上下文 |
 
-> **Tip:** Always call `jira_get_transitions` before transitioning — transition IDs vary per project workflow.
+> **提示：** 在转换状态前始终调用 `jira_get_transitions` — 转换 ID 因项目工作流而异。
 
-## Direct REST API Reference
+## 直接 REST API 参考
 
-### Fetch a Ticket
+### 获取工单
 
 ```bash
 curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
@@ -102,7 +102,7 @@ curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   }'
 ```
 
-### Fetch Comments
+### 获取评论
 
 ```bash
 curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
@@ -114,7 +114,7 @@ curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   }'
 ```
 
-### Add a Comment
+### 添加评论
 
 ```bash
 curl -s -X POST -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
@@ -132,21 +132,21 @@ curl -s -X POST -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   "$JIRA_URL/rest/api/3/issue/PROJ-1234/comment"
 ```
 
-### Transition a Ticket
+### 转换工单
 
 ```bash
-# 1. Get available transitions
+# 1. 获取可用转换
 curl -s -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   "$JIRA_URL/rest/api/3/issue/PROJ-1234/transitions" | jq '.transitions[] | {id, name: .name}'
 
-# 2. Execute transition (replace TRANSITION_ID)
+# 2. 执行转换（替换 TRANSITION_ID）
 curl -s -X POST -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   -H "Content-Type: application/json" \
   -d '{"transition": {"id": "TRANSITION_ID"}}' \
   "$JIRA_URL/rest/api/3/issue/PROJ-1234/transitions"
 ```
 
-### Search with JQL
+### 使用 JQL 搜索
 
 ```bash
 curl -s -G -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
@@ -154,140 +154,140 @@ curl -s -G -u "$JIRA_EMAIL:$JIRA_API_TOKEN" \
   "$JIRA_URL/rest/api/3/search"
 ```
 
-## Analyzing a Ticket
+## 分析工单
 
-When retrieving a ticket for development or test automation, extract:
+检索工单用于开发或测试自动化时，提取：
 
-### 1. Testable Requirements
-- **Functional requirements** — What the feature does
-- **Acceptance criteria** — Conditions that must be met
-- **Testable behaviors** — Specific actions and expected outcomes
-- **User roles** — Who uses this feature and their permissions
-- **Data requirements** — What data is needed
-- **Integration points** — APIs, services, or systems involved
+### 1. 可测试的需求
+- **功能需求** — 功能做什么
+- **验收标准** — 必须满足的条件
+- **可测试行为** — 具体操作和预期结果
+- **用户角色** — 谁使用此功能及其权限
+- **数据需求** — 需要什么数据
+- **集成点** — 涉及的 API、服务或系统
 
-### 2. Test Types Needed
-- **Unit tests** — Individual functions and utilities
-- **Integration tests** — API endpoints and service interactions
-- **E2E tests** — User-facing UI flows
-- **API tests** — Endpoint contracts and error handling
+### 2. 所需测试类型
+- **单元测试** — 单个函数和工具
+- **集成测试** — API 端点和服务交互
+- **端到端测试** — 面向用户的 UI 流程
+- **API 测试** — 端点契约和错误处理
 
-### 3. Edge Cases & Error Scenarios
-- Invalid inputs (empty, too long, special characters)
-- Unauthorized access
-- Network failures or timeouts
-- Concurrent users or race conditions
-- Boundary conditions
-- Missing or null data
-- State transitions (back navigation, refresh, etc.)
+### 3. 边缘情况和错误场景
+- 无效输入（空、过长、特殊字符）
+- 未授权访问
+- 网络故障或超时
+- 并发用户或竞争条件
+- 边界条件
+- 缺失或空数据
+- 状态转换（后退导航、刷新等）
 
-### 4. Structured Analysis Output
+### 4. 结构化分析输出
 
 ```
-Ticket: PROJ-1234
-Summary: [ticket title]
-Status: [current status]
-Priority: [High/Medium/Low]
-Test Types: Unit, Integration, E2E
+工单：PROJ-1234
+摘要：[工单标题]
+状态：[当前状态]
+优先级：[高/中/低]
+测试类型：单元、集成、端到端
 
-Requirements:
-1. [requirement 1]
-2. [requirement 2]
+需求：
+1. [需求 1]
+2. [需求 2]
 
-Acceptance Criteria:
-- [ ] [criterion 1]
-- [ ] [criterion 2]
+验收标准：
+- [ ] [标准 1]
+- [ ] [标准 2]
 
-Test Scenarios:
-- Happy Path: [description]
-- Error Case: [description]
-- Edge Case: [description]
+测试场景：
+- 正常路径：[描述]
+- 错误情况：[描述]
+- 边缘情况：[描述]
 
-Test Data Needed:
-- [data item 1]
-- [data item 2]
+所需测试数据：
+- [数据项 1]
+- [数据项 2]
 
-Dependencies:
-- [dependency 1]
-- [dependency 2]
+依赖：
+- [依赖 1]
+- [依赖 2]
 ```
 
-## Updating Tickets
+## 更新工单
 
-### When to Update
+### 何时更新
 
-| Workflow Step | Jira Update |
+| 工作流步骤 | Jira 更新 |
 |---|---|
-| Start work | Transition to "In Progress" |
-| Tests written | Comment with test coverage summary |
-| Branch created | Comment with branch name |
-| PR/MR created | Comment with link, link issue |
-| Tests passing | Comment with results summary |
-| PR/MR merged | Transition to "Done" or "In Review" |
+| 开始工作 | 转换为"进行中" |
+| 测试已编写 | 评论包含测试覆盖摘要 |
+| 分支已创建 | 评论包含分支名称 |
+| PR/MR 已创建 | 评论包含链接，关联问题 |
+| 测试通过 | 评论包含结果摘要 |
+| PR/MR 已合并 | 转换为"已完成"或"审查中" |
 
-### Comment Templates
+### 评论模板
 
-**Starting Work:**
+**开始工作：**
 ```
-Starting implementation for this ticket.
-Branch: feat/PROJ-1234-feature-name
-```
-
-**Tests Implemented:**
-```
-Automated tests implemented:
-
-Unit Tests:
-- [test file 1] — [what it covers]
-- [test file 2] — [what it covers]
-
-Integration Tests:
-- [test file] — [endpoints/flows covered]
-
-All tests passing locally. Coverage: XX%
+开始实现此工单。
+分支：feat/PROJ-1234-feature-name
 ```
 
-**PR Created:**
+**测试已实现：**
 ```
-Pull request created:
-[PR Title](https://github.com/org/repo/pull/XXX)
+自动化测试已实现：
 
-Ready for review.
-```
+单元测试：
+- [测试文件 1] — [覆盖内容]
+- [测试文件 2] — [覆盖内容]
 
-**Work Complete:**
-```
-Implementation complete.
+集成测试：
+- [测试文件] — [覆盖的端点/流程]
 
-PR merged: [link]
-Test results: All passing (X/Y)
-Coverage: XX%
+所有测试本地通过。覆盖率：XX%
 ```
 
-## Security Guidelines
+**PR 已创建：**
+```
+拉取请求已创建：
+[PR 标题](https://github.com/org/repo/pull/XXX)
 
-- **Never hardcode** Jira API tokens in source code or skill files
-- **Always use** environment variables or a secrets manager
-- **Add `.env`** to `.gitignore` in every project
-- **Rotate tokens** immediately if exposed in git history
-- **Use least-privilege** API tokens scoped to required projects
-- **Validate** that credentials are set before making API calls — fail fast with a clear message
+等待审查。
+```
 
-## Troubleshooting
+**工作完成：**
+```
+实现完成。
 
-| Error | Cause | Fix |
+PR 已合并：[链接]
+测试结果：全部通过 (X/Y)
+覆盖率：XX%
+```
+
+## 安全指南
+
+- **绝不硬编码** Jira API 令牌在源代码或技能文件中
+- **始终使用** 环境变量或密钥管理器
+- **在每个项目中将 `.env`** 添加到 `.gitignore`
+- **如果令牌暴露在 git 历史中**，立即轮换令牌
+- **使用最小权限** API 令牌，限定到所需项目
+- **在进行 API 调用前验证** 凭证已设置 — 快速失败并给出清晰消息
+
+## 故障排除
+
+| 错误 | 原因 | 修复 |
 |---|---|---|
-| `401 Unauthorized` | Invalid or expired API token | Regenerate at id.atlassian.com |
-| `403 Forbidden` | Token lacks project permissions | Check token scopes and project access |
-| `404 Not Found` | Wrong ticket key or base URL | Verify `JIRA_URL` and ticket key |
-| `spawn uvx ENOENT` | IDE cannot find `uvx` on PATH | Use full path (e.g., `~/.local/bin/uvx`) or set PATH in `~/.zprofile` |
-| Connection timeout | Network/VPN issue | Check VPN connection and firewall rules |
+| `401 Unauthorized` | API 令牌无效或已过期 | 在 id.atlassian.com 重新生成 |
+| `403 Forbidden` | 令牌缺少项目权限 | 检查令牌范围和项目访问权限 |
+| `404 Not Found` | 工单键或基础 URL 错误 | 验证 `JIRA_URL` 和工单键 |
+| `spawn uvx ENOENT` | IDE 在 PATH 中找不到 `uvx` | 使用完整路径（例如 `~/.local/bin/uvx`）或在 `~/.zprofile` 中设置 PATH |
+| 连接超时 | 网络/VPN 问题 | 检查 VPN 连接和防火墙规则 |
 
-## Best Practices
+## 最佳实践
 
-- Update Jira as you go, not all at once at the end
-- Keep comments concise but informative
-- Link rather than copy — point to PRs, test reports, and dashboards
-- Use @mentions if you need input from others
-- Check linked issues to understand full feature scope before starting
-- If acceptance criteria are vague, ask for clarification before writing code
+- 随时更新 Jira，不要等到最后一次性更新
+- 保持评论简洁但信息丰富
+- 链接而非复制 — 指向 PR、测试报告和仪表板
+- 如果需要他人输入，使用 @提及
+- 在开始前检查关联问题以了解完整功能范围
+- 如果验收标准模糊，在编写代码前要求澄清

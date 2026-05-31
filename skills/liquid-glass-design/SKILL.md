@@ -1,13 +1,13 @@
 ---
 name: liquid-glass-design
-description: Apple 液态玻璃设计语言模式——毛玻璃效果、材质、深度层次和动态模糊，适用于 iOS 和 visionOS 应用。
+description: iOS 26 液态玻璃设计系统 — 具有模糊、反射和交互变形的动态玻璃材质，适用于 SwiftUI、UIKit 和 WidgetKit。
 ---
 
-# Liquid Glass Design System (iOS 26)
+# 液态玻璃设计系统（iOS 26）
 
 Patterns for implementing Apple's Liquid Glass — a dynamic material that blurs content behind it, reflects color and light from surrounding content, and reacts to touch and pointer interactions. Covers SwiftUI, UIKit, and WidgetKit integration.
 
-## When to Activate
+## 何时激活
 
 - Building or updating apps for iOS 26+ with the new design language
 - Implementing glass-style buttons, cards, toolbars, or containers
@@ -15,9 +15,9 @@ Patterns for implementing Apple's Liquid Glass — a dynamic material that blurs
 - Applying Liquid Glass effects to widgets
 - Migrating existing blur/material effects to the new Liquid Glass API
 
-## Core Pattern — SwiftUI
+## 核心模式 — SwiftUI
 
-### Basic Glass Effect
+### 基础玻璃效果
 
 The simplest way to add Liquid Glass to any view:
 
@@ -28,7 +28,7 @@ Text("Hello, World!")
     .glassEffect()  // Default: regular variant, capsule shape
 ```
 
-### Customizing Shape and Tint
+### 自定义形状和色调
 
 ```swift
 Text("Hello, World!")
@@ -43,7 +43,7 @@ Key customization options:
 - `.interactive()` — react to touch and pointer interactions
 - Shape: `.capsule` (default), `.rect(cornerRadius:)`, `.circle`
 
-### Glass Button Styles
+### 玻璃按钮样式
 
 ```swift
 Button("Click Me") { /* action */ }
@@ -53,7 +53,7 @@ Button("Important") { /* action */ }
     .buttonStyle(.glassProminent)
 ```
 
-### GlassEffectContainer for Multiple Elements
+### 多元素 GlassEffectContainer
 
 Always wrap multiple glass views in a container for performance and morphing:
 
@@ -75,7 +75,7 @@ GlassEffectContainer(spacing: 40.0) {
 
 The `spacing` parameter controls merge distance — closer elements blend their glass shapes together.
 
-### Uniting Glass Effects
+### 联合玻璃效果
 
 Combine multiple views into a single glass shape with `glassEffectUnion`:
 
@@ -94,7 +94,7 @@ GlassEffectContainer(spacing: 20.0) {
 }
 ```
 
-### Morphing Transitions
+### 变形过渡
 
 Create smooth morphing when glass elements appear/disappear:
 
@@ -124,13 +124,13 @@ Button("Toggle") {
 .buttonStyle(.glass)
 ```
 
-### Extending Horizontal Scrolling Under Sidebar
+### 扩展侧边栏下方的水平滚动
 
 To allow horizontal scroll content to extend under a sidebar or inspector, ensure the `ScrollView` content reaches the leading/trailing edges of the container. The system automatically handles the under-sidebar scrolling behavior when the layout extends to the edges — no additional modifier is needed.
 
-## Core Pattern — UIKit
+## 核心模式 — UIKit
 
-### Basic UIGlassEffect
+### 基础 UIGlassEffect
 
 ```swift
 let glassEffect = UIGlassEffect()
@@ -161,7 +161,7 @@ NSLayoutConstraint.activate([
 ])
 ```
 
-### UIGlassContainerEffect for Multiple Elements
+### 多元素 UIGlassContainerEffect
 
 ```swift
 let containerEffect = UIGlassContainerEffect()
@@ -176,7 +176,7 @@ containerView.contentView.addSubview(firstGlass)
 containerView.contentView.addSubview(secondGlass)
 ```
 
-### Scroll Edge Effects
+### 滚动边缘效果
 
 ```swift
 scrollView.topEdgeEffect.style = .automatic
@@ -184,16 +184,16 @@ scrollView.bottomEdgeEffect.style = .hard
 scrollView.leftEdgeEffect.isHidden = true
 ```
 
-### Toolbar Glass Integration
+### 工具栏玻璃集成
 
 ```swift
 let favoriteButton = UIBarButtonItem(image: UIImage(systemName: "heart"), style: .plain, target: self, action: #selector(favoriteAction))
 favoriteButton.hidesSharedBackground = true  // Opt out of shared glass background
 ```
 
-## Core Pattern — WidgetKit
+## 核心模式 — WidgetKit
 
-### Rendering Mode Detection
+### 渲染模式检测
 
 ```swift
 struct MyWidgetView: View {
@@ -209,7 +209,7 @@ struct MyWidgetView: View {
 }
 ```
 
-### Accent Groups for Visual Hierarchy
+### 视觉层级的强调组
 
 ```swift
 HStack {
@@ -224,14 +224,14 @@ HStack {
 }
 ```
 
-### Image Rendering in Accented Mode
+### 强调模式下的图像渲染
 
 ```swift
 Image("myImage")
     .widgetAccentedRenderingMode(.monochrome)
 ```
 
-### Container Background
+### 容器背景
 
 ```swift
 VStack { /* content */ }
@@ -240,7 +240,7 @@ VStack { /* content */ }
     }
 ```
 
-## Key Design Decisions
+## 键设计 Decisions
 
 | Decision | Rationale |
 |----------|-----------|
@@ -251,7 +251,7 @@ VStack { /* content */ }
 | UIGlassContainerEffect in UIKit | Same container pattern as SwiftUI for consistency |
 | Accented rendering mode in widgets | System applies tinted glass when user selects tinted Home Screen |
 
-## Best Practices
+## 最佳实践
 
 - **Always use GlassEffectContainer** when applying glass to multiple sibling views — it enables morphing and improves rendering performance
 - **Apply `.glassEffect()` after** other appearance modifiers (frame, font, padding)
@@ -261,7 +261,7 @@ VStack { /* content */ }
 - **Test across appearances** — light mode, dark mode, and accented/tinted modes
 - **Ensure accessibility contrast** — text on glass must remain readable
 
-## Anti-Patterns to Avoid
+## 需要避免的反模式
 
 - Using multiple standalone `.glassEffect()` views without a GlassEffectContainer
 - Nesting too many glass effects — degrades performance and visual clarity
@@ -270,7 +270,7 @@ VStack { /* content */ }
 - Ignoring accented rendering mode in widgets — breaks tinted Home Screen appearance
 - Using opaque backgrounds behind glass — defeats the translucency effect
 
-## When to Use
+## 何时使用
 
 - Navigation bars, toolbars, and tab bars with the new iOS 26 design
 - Floating action buttons and card-style containers
