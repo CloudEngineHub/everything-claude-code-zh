@@ -1,0 +1,7 @@
+interface:
+  display_name: "前端模式"
+  short_description: "React 和 Next.js 前端模式"
+  brand_color: "#8B5CF6"
+  default_prompt: "使用 $frontend-patterns 应用 React 和 Next.js 前端模式。"
+policy:
+  allow_implicit_invocation: true

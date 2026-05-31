@@ -1,0 +1,7 @@
+interface:
+  display_name: "战略压缩"
+  short_description: "通过战略压缩进行上下文管理"
+  brand_color: "#14B8A6"
+  default_prompt: "使用 $strategic-compact 选择有用的上下文压缩边界。"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,7 @@
+interface:
+  display_name: "投资者外联"
+  short_description: "个性化投资者外联和后续跟进"
+  brand_color: "#059669"
+  default_prompt: "使用 $investor-outreach 撰写简洁的个性化投资者外联。"
+policy:
+  allow_implicit_invocation: true

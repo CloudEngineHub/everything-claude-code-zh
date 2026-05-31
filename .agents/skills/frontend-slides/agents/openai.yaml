@@ -1,0 +1,7 @@
+interface:
+  display_name: "前端幻灯片"
+  short_description: "动画丰富的 HTML 演示文稿"
+  brand_color: "#FF6B3D"
+  default_prompt: "使用 $frontend-slides 创建动画丰富的 HTML 演示文稿。"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,119 @@
+#:schema https://developers.openai.com/codex/config-schema.json
+
+# Everything Claude Code (ECC) — Codex 参考配置
+#
+# 将此文件复制到 ~/.codex/config.toml 以获取全局默认值，或保留在
+# 项目根目录作为 .codex/config.toml 以获取项目本地设置。
+#
+# 官方文档：
+# - https://developers.openai.com/codex/config-reference
+# - https://developers.openai.com/codex/multi-agent
+
+# 模型选择
+# 保持 `model` 和 `model_provider` 未设置，以便 Codex CLI 使用其当前
+# 内置默认值。仅当您故意想要仓库本地或全局模型覆盖时才取消注释并固定它们。
+
+# 顶层运行时设置（当前 Codex schema）
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+web_search = "live"
+
+# 外部通知在 stdin 上接收 JSON 有效负载。
+notify = [
+  "terminal-notifier",
+  "-title", "Codex ECC",
+  "-message", "任务完成！",
+  "-sound", "default",
+]
+
+# 持久指令附加到每个提示（累加，不像
+# model_instructions_file 替换 AGENTS.md）。
+persistent_instructions = "遵循项目 AGENTS.md 指南。在有帮助时使用可用的 MCP 服务器。"
+
+# model_instructions_file 替换内置指令而不是 AGENTS.md，
+# 所以保持未设置，除非您故意想要单个覆盖文件。
+# model_instructions_file = "/absolute/path/to/instructions.md"
+
+# MCP 服务器
+# 保持默认项目集精简。API 支持的服务器从
+# 启动环境继承凭据，或者可以由用户级 ~/.codex/config.toml 提供。
+[mcp_servers.github]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-github"]
+startup_timeout_sec = 30
+
+[mcp_servers.context7]
+command = "npx"
+# 规范 Codex 部分名称是 `context7`；包本身保持
+# `@upstash/context7-mcp`。
+args = ["-y", "@upstash/context7-mcp@latest"]
+startup_timeout_sec = 30
+
+[mcp_servers.exa]
+url = "https://mcp.exa.ai/mcp"
+
+[mcp_servers.memory]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-memory"]
+startup_timeout_sec = 30
+
+[mcp_servers.playwright]
+command = "npx"
+args = ["-y", "@playwright/mcp@latest", "--extension"]
+startup_timeout_sec = 30
+
+[mcp_servers.sequential-thinking]
+command = "npx"
+args = ["-y", "@modelcontextprotocol/server-sequential-thinking"]
+startup_timeout_sec = 30
+
+# 额外的 MCP 服务器（根据需要取消注释）：
+# [mcp_servers.supabase]
+# command = "npx"
+# args = ["-y", "supabase-mcp-server@latest", "--read-only"]
+#
+# [mcp_servers.firecrawl]
+# command = "npx"
+# args = ["-y", "firecrawl-mcp"]
+#
+# [mcp_servers.fal-ai]
+# command = "npx"
+# args = ["-y", "fal-ai-mcp-server"]
+#
+# [mcp_servers.cloudflare]
+# command = "npx"
+# args = ["-y", "@cloudflare/mcp-server-cloudflare"]
+
+[features]
+# Codex 多代理协作在当前构建中稳定且默认启用。
+# 在此处保留显式切换，以便仓库清楚地记录其期望。
+multi_agent = true
+
+# 配置文件 — 使用 `codex -p <name>` 切换
+[profiles.strict]
+approval_policy = "on-request"
+sandbox_mode = "read-only"
+web_search = "cached"
+
+[profiles.yolo]
+approval_policy = "never"
+sandbox_mode = "workspace-write"
+web_search = "live"
+
+[agents]
+# 多代理角色限制和本地角色定义。
+# 这些映射到 `.codex/agents/*.toml` 并镜像仓库的 explorer/reviewer/docs 工作流。
+max_threads = 6
+max_depth = 1
+
+[agents.explorer]
+description = "只读代码库浏览器，在提出更改之前收集证据。"
+config_file = "agents/explorer.toml"
+
+[agents.reviewer]
+description = "专注于正确性、安全和缺失测试的 PR 审查者。"
+config_file = "agents/reviewer.toml"
+
+[agents.docs_researcher]
+description = "验证 API、框架行为和发行说明的文档专家。"
+config_file = "agents/docs-researcher.toml"

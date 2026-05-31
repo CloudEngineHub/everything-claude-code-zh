@@ -1,0 +1,7 @@
+interface:
+  display_name: "投资者材料"
+  short_description: "投资者文稿、备忘录和财务材料"
+  brand_color: "#7C3AED"
+  default_prompt: "使用 $investor-materials 起草一致的面向投资者的融资资产。"
+policy:
+  allow_implicit_invocation: true

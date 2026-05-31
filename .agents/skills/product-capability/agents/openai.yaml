@@ -1,0 +1,7 @@
+interface:
+  display_name: "产品能力"
+  short_description: "实现就绪的产品能力计划"
+  brand_color: "#0EA5E9"
+  default_prompt: "使用 $product-capability 将产品意图转化为实现计划。"
+policy:
+  allow_implicit_invocation: true

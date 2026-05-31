@@ -1,0 +1,7 @@
+interface:
+  display_name: "市场研究"
+  short_description: "来源归属的市场研究"
+  brand_color: "#2563EB"
+  default_prompt: "使用 $market-research 研究具有来源归属发现的市场。"
+policy:
+  allow_implicit_invocation: true

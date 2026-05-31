@@ -1,0 +1,7 @@
+interface:
+  display_name: "MCP 服务器模式"
+  short_description: "MCP 服务器工具、资源和提示"
+  brand_color: "#0EA5E9"
+  default_prompt: "使用 $mcp-server-patterns 构建 MCP 工具、资源和提示。"
+policy:
+  allow_implicit_invocation: true

@@ -1,0 +1,162 @@
+# 为 affaan-m/everything-claude-code 精选的本能
+# 导入方式：/instinct-import .claude/homunculus/instincts/inherited/everything-claude-code-instincts.yaml
+
+---
+id: everything-claude-code-conventional-commits
+trigger: "在 everything-claude-code 中进行提交时"
+confidence: 0.9
+domain: git
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 约定式提交
+
+## 操作
+
+使用约定式提交前缀，如 `feat:`、`fix:`、`docs:`、`test:`、`chore:` 和 `refactor:`。
+
+## 证据
+
+- 主线历史一直使用约定式提交主题。
+- 发布和变更日志自动化期望可读的提交分类。
+
+---
+id: everything-claude-code-commit-length
+trigger: "在 everything-claude-code 中编写提交主题时"
+confidence: 0.8
+domain: git
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 提交长度
+
+## 操作
+
+保持提交主题简洁，接近约 70 个字符的仓库规范。
+
+## 证据
+
+- 最近的历史记录集中在约 70 个字符，而非 50 个。
+- 简短、描述性的主题在发布说明和 PR 摘要中读起来更好。
+
+---
+id: everything-claude-code-js-file-naming
+trigger: "在 everything-claude-code 中创建新的 JavaScript 或 TypeScript 模块时"
+confidence: 0.85
+domain: code-style
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code JS 文件命名
+
+## 操作
+
+JavaScript 和 TypeScript 模块文件名优先使用 camelCase，技能或命令目录保持 kebab-case。
+
+## 证据
+
+- `scripts/` 和测试辅助工具主要使用 camelCase 模块名称。
+- `skills/` 和 `commands/` 目录一致使用 kebab-case。
+
+---
+id: everything-claude-code-test-runner
+trigger: "在 everything-claude-code 中添加或更新测试时"
+confidence: 0.9
+domain: testing
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 测试运行器
+
+## 操作
+
+使用仓库现有的基于 Node 的测试流程：首先针对 `*.test.js` 文件，然后使用 `node tests/run-all.js` 或 `npm test` 进行更广泛的验证。
+
+## 证据
+
+- 仓库使用 `tests/run-all.js` 作为中央测试编排器。
+- 测试文件在钩子、CI 和集成覆盖率中遵循 `*.test.js` 命名模式。
+
+---
+id: everything-claude-code-hooks-change-set
+trigger: "在 everything-claude-code 中修改钩子或钩子相关行为时"
+confidence: 0.88
+domain: workflow
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 钩子更改集
+
+## 操作
+
+一起更新钩子脚本、其配置、其测试和面向用户的文档。
+
+## 证据
+
+- 钩子修复通常跨越 `hooks/hooks.json`、`scripts/hooks/`、`tests/hooks/`、`tests/integration/` 和 `hooks/README.md`。
+- 部分钩子更改是回归和过时文档的常见来源。
+
+---
+id: everything-claude-code-cross-platform-sync
+trigger: "跨 ECC 表面发布用户可见功能时"
+confidence: 0.9
+domain: workflow
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 跨平台同步
+
+## 操作
+
+将根仓库视为事实来源，然后仅在功能实际存在的地方将已发布的更改镜像到 `.cursor/`、`.codex/`、`.opencode/` 和 `.agents/`。
+
+## 证据
+
+- ECC 维护多个特定于 harness 的表面，具有重叠但不相同的文件。
+- 最安全的工作流程是根优先，然后进行显式同等更新。
+
+---
+id: everything-claude-code-release-sync
+trigger: "为 everything-claude-code 准备发布时"
+confidence: 0.86
+domain: workflow
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 发布同步
+
+## 操作
+
+在发布之前保持包版本、插件清单和面向发布的文档同步。
+
+## 证据
+
+- 发布工作跨越 `package.json`、`.claude-plugin/*`、`.opencode/package.json` 和发布说明内容。
+- 版本漂移会导致损坏的更新路径和令人困惑的安装表面。
+
+---
+id: everything-claude-code-learning-curation
+trigger: "导入或演化 everything-claude-code 的本能时"
+confidence: 0.84
+domain: workflow
+source: repo-curation
+source_repo: affaan-m/everything-claude-code
+---
+
+# Everything Claude Code 学习精选
+
+## 操作
+
+优先使用一小组准确的本能，而不是批量生成的、重复的或矛盾的本能。
+
+## 证据
+
+- 自动生成的本能转储可能重复规则、将触发器扩展得太远，或保留占位符检测器输出。
+- 精选的本能更容易导入、审计和信任，在持续学习工作流中。

@@ -1,0 +1,548 @@
+---
+name: coding-standards
+description: 用于命名、可读性、不变性和代码质量审查的基线跨项目编码约定。使用详细的前端或后端技能获取特定框架的模式。
+---
+
+# 编码标准和最佳实践
+
+适用于跨项目的基本编码约定。
+
+此技能是共享的基础，不是详细的框架手册。
+
+- 使用 `frontend-patterns` 进行 React、状态、表单、渲染和 UI 架构。
+- 使用 `backend-patterns` 或 `api-design` 进行存储库/服务层、端点设计、验证和服务器特定关注点。
+- 当您需要最短的可重用规则层而不是完整的技能演练时，使用 `rules/common/coding-style.md`。
+
+## 何时激活
+
+- 开始新项目或模块
+- 审查代码质量和可维护性
+- 重构现有代码以遵循约定
+- 强制命名、格式或结构一致性
+- 设置 linting、格式或类型检查规则
+- 向新贡献者介绍编码约定
+
+## 范围边界
+
+为以下情况激活此技能：
+- 描述性命名
+- 不变性默认值
+- 可读性、KISS、DRY 和 YAGNI 强制执行
+- 错误处理期望和代码气味审查
+
+不要将此技能作为主要来源用于：
+- React 组合、钩子或渲染模式
+- 后端架构、API 设计或数据库分层
+- 当存在更窄的 ECC 技能时的特定于领域的框架指导
+
+## 代码质量原则
+
+### 1. 可读性优先
+- 代码被阅读的次数多于编写的次数
+- 清晰的变量和函数名称
+- 优先使用自记录代码而不是注释
+- 一致的格式
+
+### 2. KISS（保持简单，愚蠢）
+- 有效的最简单解决方案
+- 避免过度工程
+- 没有过早优化
+- 易于理解 > 聪明的代码
+
+### 3. DRY（不要重复自己）
+- 将常用逻辑提取到函数中
+- 创建可重用组件
+- 跨模块共享工具
+- 避免复制粘贴编程
+
+### 4. YAGNI（你不会需要它）
+- 不在需要之前构建功能
+- 避免投机性的一般性
+- 仅在需要时添加复杂性
+- 从简单开始，需要时重构
+
+## TypeScript/JavaScript 标准
+
+### 变量命名
+
+```typescript
+// PASS：GOOD：描述性名称
+const marketSearchQuery = 'election'
+const isUserAuthenticated = true
+const totalRevenue = 1000
+
+// FAIL：BAD：不清楚的名称
+const q = 'election'
+const flag = true
+const x = 1000
+```
+
+### 函数命名
+
+```typescript
+// PASS：GOOD：动词-名词模式
+async function fetchMarketData(marketId: string) { }
+function calculateSimilarity(a: number[], b: number[]) { }
+function isValidEmail(email: string): boolean { }
+
+// FAIL：BAD：不清楚或仅名词
+async function market(id: string) { }
+function similarity(a, b) { }
+function email(e) { }
+```
+
+### 不变性模式（关键）
+
+```typescript
+// PASS：始终使用扩展运算符
+const updatedUser = {
+  ...user,
+  name: 'New Name'
+}
+
+const updatedArray = [...items, newItem]
+
+// FAIL：绝不直接变异
+user.name = 'New Name'  // BAD
+items.push(newItem)     // BAD
+```
+
+### 错误处理
+
+```typescript
+// PASS：GOOD：全面的错误处理
+async function fetchData(url: string) {
+  try {
+    const response = await fetch(url)
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
+    }
+
+    return await response.json()
+  } catch (error) {
+    console.error('Fetch failed:', error)
+    throw new Error('Failed to fetch data')
+  }
+}
+
+// FAIL：BAD：没有错误处理
+async function fetchData(url) {
+  const response = await fetch(url)
+  return response.json()
+}
+```
+
+### Async/Await 最佳实践
+
+```typescript
+// PASS：GOOD：尽可能并行执行
+const [users, markets, stats] = await Promise.all([
+  fetchUsers(),
+  fetchMarkets(),
+  fetchStats()
+])
+
+// FAIL：BAD：不必要的顺序执行
+const users = await fetchUsers()
+const markets = await fetchMarkets()
+const stats = await fetchStats()
+```
+
+### 类型安全
+
+```typescript
+// PASS：GOOD：适当的类型
+interface Market {
+  id: string
+  name: string
+  status: 'active' | 'resolved' | 'closed'
+  created_at: Date
+}
+
+function getMarket(id: string): Promise<Market> {
+  // 实现
+}
+
+// FAIL：BAD：使用 'any'
+function getMarket(id: any): Promise<any> {
+  // 实现
+}
+```
+
+## React 最佳实践
+
+### 组件结构
+
+```typescript
+// PASS：GOOD：带类型的函数组件
+interface ButtonProps {
+  children: React.ReactNode
+  onClick: () => void
+  disabled?: boolean
+  variant?: 'primary' | 'secondary'
+}
+
+export function Button({
+  children,
+  onClick,
+  disabled = false,
+  variant = 'primary'
+}: ButtonProps) {
+  return (
+    <button
+      onClick={onClick}
+      disabled={disabled}
+      className={`btn btn-${variant}`}
+    >
+      {children}
+    </button>
+  )
+}
+
+// FAIL：BAD：没有类型，不清楚的结构
+export function Button(props) {
+  return <button onClick={props.onClick}>{props.children}</button>
+}
+```
+
+### 自定义钩子
+
+```typescript
+// PASS：GOOD：可重用的自定义钩子
+export function useDebounce<T>(value: T, delay: number): T {
+  const [debouncedValue, setDebouncedValue] = useState<T>(value)
+
+  useEffect(() => {
+    const handler = setTimeout(() => {
+      setDebouncedValue(value)
+    }, delay)
+
+    return () => clearTimeout(handler)
+  }, [value, delay])
+
+  return debouncedValue
+}
+
+// 使用
+const debouncedQuery = useDebounce(searchQuery, 500)
+```
+
+### 状态管理
+
+```typescript
+// PASS：GOOD：适当的状态更新
+const [count, setCount] = useState(0)
+
+// 基于先前状态的功能更新
+setCount(prev => prev + 1)
+
+// FAIL：BAD：直接状态引用
+setCount(count + 1)  // 在异步场景中可能过时
+```
+
+### 条件渲染
+
+```typescript
+// PASS：GOOD：清晰的条件渲染
+{isLoading && <Spinner />}
+{error && <ErrorMessage error={error} />}
+{data && <DataDisplay data={data} />}
+
+// FAIL：BAD：三元地狱
+{isLoading ? <Spinner /> : error ? <ErrorMessage error={error} /> : data ? <DataDisplay data={data} /> : null}
+```
+
+## API 设计标准
+
+### REST API 约定
+
+```
+GET    /api/markets              # 列出所有市场
+GET    /api/markets/:id          # 获取特定市场
+POST   /api/markets              # 创建新市场
+PUT    /api/markets/:id          # 更新市场（完整）
+PATCH  /api/markets/:id          # 更新市场（部分）
+DELETE /api/markets/:id          # 删除市场
+
+# 用于过滤的查询参数
+GET /api/markets?status=active&limit=10&offset=0
+```
+
+### 响应格式
+
+```typescript
+// PASS：GOOD：一致的响应结构
+interface ApiResponse<T> {
+  success: boolean
+  data?: T
+  error?: string
+  meta?: {
+    total: number
+    page: number
+    limit: number
+  }
+}
+
+// 成功响应
+return NextResponse.json({
+  success: true,
+  data: markets,
+  meta: { total: 100, page: 1, limit: 10 }
+})
+
+// 错误响应
+return NextResponse.json({
+  success: false,
+  error: 'Invalid request'
+}, { status: 400 })
+```
+
+### 输入验证
+
+```typescript
+import { z } from 'zod'
+
+// PASS：GOOD：架构验证
+const CreateMarketSchema = z.object({
+  name: z.string().min(1).max(200),
+  description: z.string().min(1).max(2000),
+  endDate: z.string().datetime(),
+  categories: z.array(z.string()).min(1)
+})
+
+export async function POST(request: Request) {
+  const body = await request.json()
+
+  try {
+    const validated = CreateMarketSchema.parse(body)
+    // 继续处理验证的数据
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json({
+        success: false,
+        error: 'Validation failed',
+        details: error.errors
+      }, { status: 400 })
+    }
+  }
+}
+```
+
+## 文件组织
+
+### 项目结构
+
+```
+src/
+├── app/                    # Next.js App Router
+│   ├── api/               # API 路由
+│   ├── markets/           # 市场页面
+│   └── (auth)/           # 认证页面（路由组）
+├── components/            # React 组件
+│   ├── ui/               # 通用 UI 组件
+│   ├── forms/            # 表单组件
+│   └── layouts/          # 布局组件
+├── hooks/                # 自定义 React 钩子
+├── lib/                  # 工具和配置
+│   ├── api/             # API 客户端
+│   ├── utils/           # 辅助函数
+│   └── constants/       # 常量
+├── types/                # TypeScript 类型
+└── styles/              # 全局样式
+```
+
+### 文件命名
+
+```
+components/Button.tsx          # 组件使用 PascalCase
+hooks/useAuth.ts              # 带有 'use' 前缀的 camelCase
+lib/formatDate.ts             # 工具使用 camelCase
+types/market.types.ts         # 带有 .types 后缀的 camelCase
+```
+
+## 注释和文档
+
+### 何时注释
+
+```typescript
+// PASS：GOOD：解释为什么，而不是什么
+// 使用指数退避以避免在中断期间使 API 不堪重负
+const delay = Math.min(1000 * Math.pow(2, retryCount), 30000)
+
+// 这里故意使用变异以提高大型数组的性能
+items.push(newItem)
+
+// FAIL：BAD：陈述显而易见的事情
+// 计数器加 1
+count++
+
+// 将名称设置为用户的名称
+name = user.name
+```
+
+### 公共 API 的 JSDoc
+
+```typescript
+/**
+ * 使用语义相似性搜索市场。
+ *
+ * @param query - 自然语言搜索查询
+ * @param limit - 最大结果数（默认：10）
+ * @returns 按相似性分数排序的市场数组
+ * @throws {Error} 如果 OpenAI API 失败或 Redis 不可用
+ *
+ * @example
+ * ```typescript
+ * const results = await searchMarkets('election', 5)
+ * console.log(results[0].name) // "Trump vs Biden"
+ * ```
+ */
+export async function searchMarkets(
+  query: string,
+  limit: number = 10
+): Promise<Market[]> {
+  // 实现
+}
+```
+
+## 性能最佳实践
+
+### 记忆化
+
+```typescript
+import { useMemo, useCallback } from 'react'
+
+// PASS：GOOD：记忆化昂贵的计算
+const sortedMarkets = useMemo(() => {
+  return markets.sort((a, b) => b.volume - a.volume)
+}, [markets])
+
+// PASS：GOOD：记忆化回调
+const handleSearch = useCallback((query: string) => {
+  setSearchQuery(query)
+}, [])
+```
+
+### 懒加载
+
+```typescript
+import { lazy, Suspense } from 'react'
+
+// PASS：GOOD：懒加载重组件
+const HeavyChart = lazy(() => import('./HeavyChart'))
+
+export function Dashboard() {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <HeavyChart />
+    </Suspense>
+  )
+}
+```
+
+### 数据库查询
+
+```typescript
+// PASS：GOOD：仅选择所需列
+const { data } = await supabase
+  .from('markets')
+  .select('id, name, status')
+  .limit(10)
+
+// FAIL：BAD：选择所有内容
+const { data } = await supabase
+  .from('markets')
+  .select('*')
+```
+
+## 测试标准
+
+### 测试结构（AAA 模式）
+
+```typescript
+test('正确计算相似性', () => {
+  // 安排
+  const vector1 = [1, 0, 0]
+  const vector2 = [0, 1, 0]
+
+  // 操作
+  const similarity = calculateCosineSimilarity(vector1, vector2)
+
+  // 断言
+  expect(similarity).toBe(0)
+})
+```
+
+### 测试命名
+
+```typescript
+// PASS：GOOD：描述性测试名称
+test('当没有市场与查询匹配时返回空数组', () => { })
+test('当缺少 OpenAI API 密钥时抛出错误', () => { })
+test('当 Redis 不可用时回退到子字符串搜索', () => { })
+
+// FAIL：BAD：模糊的测试名称
+test('works', () => { })
+test('test search', () => { })
+```
+
+## 代码气味检测
+
+注意这些反模式：
+
+### 1. 长函数
+```typescript
+// FAIL：BAD：函数 > 50 行
+function processMarketData() {
+  // 100 行代码
+}
+
+// PASS：GOOD：拆分为更小的函数
+function processMarketData() {
+  const validated = validateData()
+  const transformed = transformData(validated)
+  return saveData(transformed)
+}
+```
+
+### 2. 深度嵌套
+```typescript
+// FAIL：BAD：5+ 层嵌套
+if (user) {
+  if (user.isAdmin) {
+    if (market) {
+      if (market.isActive) {
+        if (hasPermission) {
+          // 做某事
+        }
+      }
+    }
+  }
+}
+
+// PASS：GOOD：提前返回
+if (!user) return
+if (!user.isAdmin) return
+if (!market) return
+if (!market.isActive) return
+if (!hasPermission) return
+
+// 做某事
+```
+
+### 3. 魔术数字
+```typescript
+// FAIL：BAD：未解释的数字
+if (retryCount > 3) { }
+setTimeout(callback, 500)
+
+// PASS：GOOD：命名常量
+const MAX_RETRIES = 3
+const DEBOUNCE_DELAY_MS = 500
+
+if (retryCount > MAX_RETRIES) { }
+setTimeout(callback, DEBOUNCE_DELAY_MS)
+```
+
+**记住**：代码质量不可协商。清晰、可维护的代码支持快速开发和自信重构。

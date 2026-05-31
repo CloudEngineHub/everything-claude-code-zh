@@ -1,0 +1,7 @@
+interface:
+  display_name: "X API"
+  short_description: "X API 发布、时间线和分析"
+  brand_color: "#000000"
+  default_prompt: "使用 $x-api 构建 X API 发布、时间线或分析工作流。"
+policy:
+  allow_implicit_invocation: true

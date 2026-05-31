@@ -1,0 +1,7 @@
+interface:
+  display_name: "视频编辑"
+  short_description: "真实素材的 AI 辅助编辑"
+  brand_color: "#EF4444"
+  default_prompt: "使用 $video-editing 规划真实素材的 AI 辅助编辑。"
+policy:
+  allow_implicit_invocation: true

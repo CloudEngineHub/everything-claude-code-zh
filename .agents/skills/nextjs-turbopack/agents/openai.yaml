@@ -1,0 +1,7 @@
+interface:
+  display_name: "Next.js Turbopack"
+  short_description: "Next.js 和 Turbopack 工作流指导"
+  brand_color: "#000000"
+  default_prompt: "使用 $nextjs-turbopack 处理 Next.js 和 Turbopack 决策。"
+policy:
+  allow_implicit_invocation: true

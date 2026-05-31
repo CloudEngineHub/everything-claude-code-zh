@@ -1,0 +1,7 @@
+interface:
+  display_name: "TDD 工作流"
+  short_description: "具有覆盖门槛的测试驱动开发"
+  brand_color: "#22C55E"
+  default_prompt: "使用 $tdd-workflow 在实现之前通过测试驱动变更。"
+policy:
+  allow_implicit_invocation: true

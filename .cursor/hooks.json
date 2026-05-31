@@ -1,0 +1,115 @@
+{
+  "version": 1,
+  "hooks": {
+    "sessionStart": [
+      {
+        "command": "node .cursor/hooks/session-start.js",
+        "event": "sessionStart",
+        "description": "加载先前的上下文并检测环境"
+      }
+    ],
+    "sessionEnd": [
+      {
+        "command": "node .cursor/hooks/session-end.js",
+        "event": "sessionEnd",
+        "description": "持久化会话状态并评估模式"
+      }
+    ],
+    "beforeShellExecution": [
+      {
+        "command": "npx block-no-verify@1.1.2",
+        "event": "beforeShellExecution",
+        "description": "阻止 git 钩子绕过标志，保护 pre-commit、commit-msg 和 pre-push 钩子不被跳过"
+      },
+      {
+        "command": "node .cursor/hooks/before-shell-execution.js",
+        "event": "beforeShellExecution",
+        "description": "Tmux 开发服务器阻止器、Tmux 提醒、git 推送审查"
+      }
+    ],
+    "afterShellExecution": [
+      {
+        "command": "node .cursor/hooks/after-shell-execution.js",
+        "event": "afterShellExecution",
+        "description": "PR URL 日志记录、构建分析"
+      }
+    ],
+    "afterFileEdit": [
+      {
+        "command": "node .cursor/hooks/after-file-edit.js",
+        "event": "afterFileEdit",
+        "description": "自动格式化、TypeScript 检查、console.log 警告和前端设计质量提醒"
+      }
+    ],
+    "beforeMCPExecution": [
+      {
+        "command": "node .cursor/hooks/before-mcp-execution.js",
+        "event": "beforeMCPExecution",
+        "description": "MCP 审计日志记录和不受信任服务器警告"
+      }
+    ],
+    "afterMCPExecution": [
+      {
+        "command": "node .cursor/hooks/after-mcp-execution.js",
+        "event": "afterMCPExecution",
+        "description": "MCP 结果日志记录"
+      }
+    ],
+    "beforeReadFile": [
+      {
+        "command": "node .cursor/hooks/before-read-file.js",
+        "event": "beforeReadFile",
+        "description": "读取敏感文件时警告（.env、.key、.pem）"
+      }
+    ],
+    "beforeSubmitPrompt": [
+      {
+        "command": "node .cursor/hooks/before-submit-prompt.js",
+        "event": "beforeSubmitPrompt",
+        "description": "检测提示中的机密（sk-、ghp_、AKIA 模式）"
+      }
+    ],
+    "subagentStart": [
+      {
+        "command": "node .cursor/hooks/subagent-start.js",
+        "event": "subagentStart",
+        "description": "记录代理生成以提供可观察性"
+      }
+    ],
+    "subagentStop": [
+      {
+        "command": "node .cursor/hooks/subagent-stop.js",
+        "event": "subagentStop",
+        "description": "记录代理完成"
+      }
+    ],
+    "beforeTabFileRead": [
+      {
+        "command": "node .cursor/hooks/before-tab-file-read.js",
+        "event": "beforeTabFileRead",
+        "description": "阻止 Tab 读取机密（.env、.key、.pem、credentials）"
+      }
+    ],
+    "afterTabFileEdit": [
+      {
+        "command": "node .cursor/hooks/after-tab-file-edit.js",
+        "event": "afterTabFileEdit",
+        "description": "自动格式化 Tab 编辑"
+      }
+    ],
+    "preCompact": [
+      {
+        "command": "node .cursor/hooks/pre-compact.js",
+        "event": "preCompact",
+        "description": "在上下文压缩前保存状态"
+      }
+    ],
+    "stop": [
+      {
+        "command": "node .cursor/hooks/stop.js",
+        "event": "stop",
+        "description": "对所有修改的文件进行 console.log 审计"
+      }
+    ]
+  }
+}
